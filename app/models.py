@@ -59,9 +59,19 @@ SEED_MODELS = [
 ]
 
 SEED_STATIONS = [
-    ("EV Hub Pune", "Senapati Bapat Road, Pune", "pune", 1, "Open 24 Hours", "https://maps.google.com"),
-    ("Charge Point Wakad", "Wakad Road, Wakad, Pune", "wakad pune", 0, "Open 6 AM - 11 PM", "https://maps.google.com"),
-    ("Mumbai Expressway Charger", "Vashi Toll Plaza, Navi Mumbai", "mumbai", 1, "Open 24 Hours", "https://maps.google.com"),
-    ("Delhi EV Plaza", "Connaught Place, New Delhi", "delhi", 1, "Open 8 AM - 10 PM", "https://maps.google.com"),
-    ("Bengaluru Tech Park Charging", "Whitefield, Bangalore", "bangalore", 0, "Open 24 Hours", "https://maps.google.com")
+    ("Tata Power EV Station Pune", "Phoenix Marketcity, Viman Nagar, Pune", "pune", 1, "Open 24 Hours", "https://maps.google.com/?q=Phoenix+Marketcity+Pune"),
+    ("Ather Grid FC Road", "Fergusson College Road, Pune", "pune", 0, "Open 7 AM - 11 PM", "https://maps.google.com/?q=FC+Road+Pune"),
+    ("Zeon Charging Hub Hinjewadi", "Rajiv Gandhi Infotech Park, Hinjewadi, Pune", "pune", 1, "Open 24 Hours", "https://maps.google.com/?q=Hinjewadi+Pune"),
+    ("Jio-bp Pulse Bandra", "Bandra Kurla Complex, Mumbai", "mumbai", 1, "Open 24 Hours", "https://maps.google.com/?q=BKC+Mumbai"),
+    ("Tata Power Vashi", "Sector 17, Vashi, Navi Mumbai", "mumbai", 1, "Open 24 Hours", "https://maps.google.com/?q=Vashi+Navi+Mumbai"),
+    ("Statiq CP Charger", "Connaught Place, New Delhi", "delhi", 1, "Open 24 Hours", "https://maps.google.com/?q=Connaught+Place+Delhi"),
+    ("Jio-bp Pulse Aerocity", "Aerocity, New Delhi", "delhi", 1, "Open 24 Hours", "https://maps.google.com/?q=Aerocity+Delhi"),
+    ("Ather Grid Whitefield", "Whitefield Main Road, Bengaluru", "bangalore", 0, "Open 6 AM - 11 PM", "https://maps.google.com/?q=Whitefield+Bangalore"),
+    ("Tata Power Electronic City", "Electronic City Phase 1, Bengaluru", "bangalore", 1, "Open 24 Hours", "https://maps.google.com/?q=Electronic+City+Bangalore"),
+    ("ChargeZone Chennai Hub", "OMR Road, Chennai", "chennai", 1, "Open 24 Hours", "https://maps.google.com/?q=OMR+Chennai"),
+    ("Zeon Charging Coimbatore", "Avinashi Road, Coimbatore", "coimbatore", 1, "Open 24 Hours", "https://maps.google.com/?q=Avinashi+Road+Coimbatore"),
+    ("Tata Power Hyderabad", "Hitech City, Hyderabad", "hyderabad", 1, "Open 24 Hours", "https://maps.google.com/?q=Hitech+City+Hyderabad"),
+    ("Jio-bp Pulse Ahmedabad", "SG Highway, Ahmedabad", "ahmedabad", 1, "Open 24 Hours", "https://maps.google.com/?q=SG+Highway+Ahmedabad"),
+    ("ChargeZone Jaipur", "Malviya Nagar, Jaipur", "jaipur", 0, "Open 8 AM - 10 PM", "https://maps.google.com/?q=Malviya+Nagar+Jaipur"),
+    ("EVRE Charging Station Goa", "Panjim, Goa", "goa", 1, "Open 24 Hours", "https://maps.google.com/?q=Panjim+Goa")
 ]
