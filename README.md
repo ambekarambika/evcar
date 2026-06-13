@@ -65,7 +65,7 @@ Once you implement the database backend functions described in the files under t
    ```
 
 3. **Access the Portal**:
-   Open [http://127.0.0.1:8000](http://127.0.0.1:8000) in your web browser.
+   Open localhost in your web browser.
 
 ---
 
