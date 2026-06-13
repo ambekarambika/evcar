@@ -1,13 +1,19 @@
+import os
 import pymysql
+from dotenv import load_dotenv
+
+# Load local environment variables from .env file
+load_dotenv()
 
 # =====================================================================
 # DATABASE CONNECTION CONFIGURATION (MySQL)
 # =====================================================================
-# Change these values to match your local MySQL configuration:
-DB_HOST = "localhost"
-DB_USER = "root"
-DB_PASSWORD = "root"  # Enter your local MySQL password here
-DB_NAME = "ev_database"
+# Connection parameters are loaded securely from your local .env file.
+# Default fallback values are specified here:
+DB_HOST = os.getenv("DB_HOST", "localhost")
+DB_USER = os.getenv("DB_USER", "root")
+DB_PASSWORD = os.getenv("DB_PASSWORD", "")  # Enter password in your local .env file
+DB_NAME = os.getenv("DB_NAME", "ev_database")
 
 def get_db_connection():
     """
