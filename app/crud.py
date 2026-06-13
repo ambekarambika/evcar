@@ -33,3 +33,4 @@ def fetch_stations(conn, city_query=None):
         else:
             cursor.execute("SELECT * FROM charging_stations")
         return cursor.fetchall()
+
