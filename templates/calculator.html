@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Savings Calculator - EV Guidance Portal</title>
+  <link rel="stylesheet" href="../static/styles.css">
+  <link rel="stylesheet" href="../static/calculator.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+</head>
+<body>
+
+<div class="ev-wrap">
+
+  <!-- Section 1: Navigation Bar -->
+  <nav class="ev-nav">
+    <div class="ev-logo">
+      <i class="ti ti-bolt" aria-hidden="true"></i>
+      ⚡ EV Guide
+    </div>
+    <div class="ev-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About EVs</a>
+      <a href="models.html">EV Models</a>
+      <a href="compare.html">Compare EVs</a>
+      <a href="charging.html">Charging Guide</a>
+      <a href="maintenance.html">Maintenance</a>
+      <div class="ev-dropdown">
+        <button class="ev-dropdown-btn active">Tools &amp; Guides <i class="ti ti-chevron-down"></i></button>
+        <div class="ev-dropdown-content">
+          <a href="buying-guide.html">EV Buying Guide</a>
+          <a href="calculator.html" class="active">Cost Savings Calculator</a>
+          <a href="environment.html">Environmental Impact</a>
+          <a href="stations.html">Charging Station Locator</a>
+          <a href="incentives.html">Government Incentives</a>
+          <a href="myths.html">EV Myths vs Facts</a>
+        </div>
+      </div>
+      <a href="feedback.html">Feedback</a>
+    </div>
+  </nav>
+
+  <main>
+    <!-- Section 1: Header -->
+    <section id="introduction">
+      <h2>Cost Savings Calculator</h2>
+      <p>Estimate how much money you can save by switching from a petrol car to an electric vehicle based on your daily commute.</p>
+    </section>
+
+    <!-- Calculator Grid -->
+    <div class="calculator-grid">
+      
+      <!-- Inputs Box -->
+      <div class="inputs-box">
+        <!-- Daily Distance -->
+        <div class="input-group">
+          <label for="distanceRange">Daily Commute Distance: <span class="val" id="distanceVal">50 km</span></label>
+          <input type="range" id="distanceRange" min="5" max="300" value="50" oninput="calculateSavings()">
+        </div>
+
+        <!-- Petrol Price -->
+        <div class="input-group">
+          <label for="petrolPrice">Petrol Price (₹/L): <span class="val" id="petrolVal">₹105</span></label>
+          <input type="range" id="petrolPrice" min="80" max="150" value="105" oninput="calculateSavings()">
+        </div>
+
+        <!-- Electricity Rate -->
+        <div class="input-group">
+          <label for="electricityRate">Electricity Rate (₹/kWh): <span class="val" id="elecVal">₹8</span></label>
+          <input type="range" id="electricityRate" min="3" max="25" value="8" oninput="calculateSavings()">
+        </div>
+      </div>
+
+      <!-- Outputs Box -->
+      <div class="outputs-box">
+        <h3>Estimated Monthly Savings</h3>
+
+        <!-- Savings Card -->
+        <div class="savings-card">
+          <h4>Monthly Savings</h4>
+          <div class="savings-num" id="monthlySavings">₹5,500</div>
+        </div>
+
+        <!-- Cost Comparison Cards -->
+        <div class="cost-comparison">
+          <div class="cost-card petrol">
+            <h4>Petrol Car Cost</h4>
+            <div class="cost-num" id="petrolCost">₹7,000</div>
+          </div>
+          <div class="cost-card ev">
+            <h4>EV Charging Cost</h4>
+            <div class="cost-num" id="evCost">₹1,500</div>
+          </div>
+        </div>
+
+        <!-- Visual Bar Chart -->
+        <div class="bar-chart-container">
+          <!-- Petrol Bar -->
+          <div class="bar-row">
+            <div class="bar-label">
+              <span>Petrol Cost</span>
+              <span id="barPetrolLabel">₹7,000</span>
+            </div>
+            <div class="bar-bg">
+              <div class="bar-fill petrol" id="barPetrolFill"></div>
+            </div>
+          </div>
+          <!-- EV Bar -->
+          <div class="bar-row">
+            <div class="bar-label">
+              <span>EV Charging Cost</span>
+              <span id="barEVLabel">₹1,500</span>
+            </div>
+            <div class="bar-bg">
+              <div class="bar-fill ev" id="barEVFill"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="ev-footer">
+    <div class="ev-footer-logo"><span>⚡</span> EV Guide</div>
+    <div class="ev-footer-links" style="display:flex;flex-wrap:wrap;gap:18px">
+      <div>
+        <h4 style="color:#fff;font-size:12px;margin-bottom:6px">Main Pages</h4>
+        <a href="index.html">Home</a> | 
+        <a href="about.html">About EVs</a> | 
+        <a href="models.html">Models</a> | 
+        <a href="compare.html">Compare</a> | 
+        <a href="charging.html">Charging</a> | 
+        <a href="maintenance.html">Maintenance</a> | 
+        <a href="feedback.html">Feedback</a>
+      </div>
+      <div>
+        <h4 style="color:#fff;font-size:12px;margin-bottom:6px">Interactive Tools</h4>
+        <a href="buying-guide.html">Buying Guide</a> | 
+        <a href="stations.html">Stations Locator</a> | 
+        <a href="calculator.html">Savings Calculator</a> | 
+        <a href="environment.html">Carbon Savings</a> | 
+        <a href="myths.html">Myths & Facts</a> | 
+        <a href="incentives.html">Government Incentives</a>
+      </div>
+    </div>
+    <div style="color:#64748b;font-size:12px;text-align:right">
+      <strong>Contact:</strong> support@evguide.org | +91 98765 43210
+    </div>
+    <div class="ev-footer-copy">© 2024 Electric Vehicle Guidance Portal. All rights reserved.</div>
+  </footer>
+
+</div>
+
+<script>
+  function calculateSavings() {
+    const dailyDistance = parseFloat(document.getElementById("distanceRange").value);
+    const petrolPrice = parseFloat(document.getElementById("petrolPrice").value);
+    const electricityRate = parseFloat(document.getElementById("electricityRate").value);
+
+    // Update Slider UI Labels
+    document.getElementById("distanceVal").textContent = dailyDistance + " km";
+    document.getElementById("petrolVal").textContent = "₹" + petrolPrice;
+    document.getElementById("elecVal").textContent = "₹" + electricityRate;
+
+    // Calculation Constants
+    const petrolEfficiency = 22.5; // km per Liter
+    const evEfficiency = 8.0;      // km per kWh
+
+    // Monthly Mileage (30 days)
+    const monthlyMileage = dailyDistance * 30;
+
+    // 1. Monthly Petrol Cost
+    const petrolConsumed = monthlyMileage / petrolEfficiency;
+    const monthlyPetrolCost = Math.round(petrolConsumed * petrolPrice);
+
+    // 2. Monthly EV Charging Cost
+    const energyConsumed = monthlyMileage / evEfficiency;
+    const monthlyEVCost = Math.round(energyConsumed * electricityRate);
+
+    // 3. Savings
+    const monthlySavings = monthlyPetrolCost - monthlyEVCost;
+
+    // Format Indian Rupees
+    const formatCurrency = (val) => "₹" + val.toLocaleString('en-IN');
+
+    // Update Output Cards
+    document.getElementById("petrolCost").textContent = formatCurrency(monthlyPetrolCost);
+    document.getElementById("evCost").textContent = formatCurrency(monthlyEVCost);
+    document.getElementById("monthlySavings").textContent = formatCurrency(Math.max(0, monthlySavings));
+
+    // Update Chart Labels
+    document.getElementById("barPetrolLabel").textContent = formatCurrency(monthlyPetrolCost);
+    document.getElementById("barEVLabel").textContent = formatCurrency(monthlyEVCost);
+
+    // Update Chart Fills (Percentages relative to Petrol cost as max basis)
+    const basisVal = Math.max(monthlyPetrolCost, monthlyEVCost, 100);
+    const petrolPercent = (monthlyPetrolCost / basisVal) * 100;
+    const evPercent = (monthlyEVCost / basisVal) * 100;
+
+    document.getElementById("barPetrolFill").style.width = petrolPercent + "%";
+    document.getElementById("barEVFill").style.width = evPercent + "%";
+  }
+
+  // Initialize on load
+  document.addEventListener("DOMContentLoaded", () => {
+    calculateSavings();
+  });
+</script>
+
+</body>
+</html>

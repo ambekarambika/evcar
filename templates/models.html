@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EV Models - EV Guidance Portal</title>
+  <link rel="stylesheet" href="../static/styles.css" />
+  <link rel="stylesheet" href="../static/ev.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+</head>
+<body>
+
+<div class="ev-wrap">
+
+  <!-- Section 1: Navigation Bar -->
+  <nav class="ev-nav">
+    <div class="ev-logo">
+      <i class="ti ti-bolt" aria-hidden="true"></i>
+      ⚡ EV Guide
+    </div>
+    <div class="ev-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About EVs</a>
+      <a href="models.html" class="active">EV Models</a>
+      <a href="compare.html">Compare EVs</a>
+      <a href="charging.html">Charging Guide</a>
+      <a href="maintenance.html">Maintenance</a>
+      <div class="ev-dropdown">
+        <button class="ev-dropdown-btn">Tools &amp; Guides <i class="ti ti-chevron-down"></i></button>
+        <div class="ev-dropdown-content">
+          <a href="buying-guide.html">EV Buying Guide</a>
+          <a href="calculator.html">Cost Savings Calculator</a>
+          <a href="environment.html">Environmental Impact</a>
+          <a href="stations.html">Charging Station Locator</a>
+          <a href="incentives.html">Government Incentives</a>
+          <a href="myths.html">EV Myths vs Facts</a>
+        </div>
+      </div>
+      <a href="feedback.html">Feedback</a>
+    </div>
+  </nav>
+
+  <main>
+    <section id="introduction">
+      <h2>Explore EV Models</h2>
+      <p>Search and filter through the leading electric vehicles to find the specifications that match your lifestyle.</p>
+    </section>
+
+    <div class="catalog-layout">
+      <!-- Section 1 & 2: Search Bar and Filters Sidebar -->
+      <aside class="filters-sidebar">
+        <h3>Filter & Search</h3>
+        
+        <!-- Search EV Models -->
+        <div class="search-box">
+          <input type="text" id="searchInput" placeholder="Search by Brand or Model..." oninput="filterModels()">
+        </div>
+
+        <!-- Brand Filters -->
+        <div class="filter-group">
+          <h4>Brand</h4>
+          <label class="checkbox-item">
+            <input type="checkbox" class="brand-filter" value="tata" onchange="filterModels()"> Tata
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" class="brand-filter" value="tesla" onchange="filterModels()"> Tesla
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" class="brand-filter" value="hyundai" onchange="filterModels()"> Hyundai
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" class="brand-filter" value="bmw" onchange="filterModels()"> BMW
+          </label>
+        </div>
+
+        <!-- Price Filters -->
+        <div class="filter-group">
+          <h4>Price</h4>
+          <label class="checkbox-item">
+            <input type="checkbox" class="price-filter" value="under-10" onchange="filterModels()"> Under ₹10 Lakhs
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" class="price-filter" value="10-20" onchange="filterModels()"> ₹10-20 Lakhs
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" class="price-filter" value="above-20" onchange="filterModels()"> Above ₹20 Lakhs
+          </label>
+        </div>
+
+        <!-- Range Filters -->
+        <div class="filter-group">
+          <h4>Range</h4>
+          <label class="checkbox-item">
+            <input type="checkbox" class="range-filter" value="under-300" onchange="filterModels()"> Below 300 km
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" class="range-filter" value="300-500" onchange="filterModels()"> 300-500 km
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" class="range-filter" value="above-500" onchange="filterModels()"> Above 500 km
+          </label>
+        </div>
+      </aside>
+
+      <!-- Section 3: Model Cards -->
+      <div class="model-details" id="modelsGrid">
+        <!-- {% if models %} -->
+          <!-- {% for model in models %} -->
+          <div class="model dynamic-only" {{ 'style="display: flex !important;"'|safe }} data-brand="{{ model.brand|lower }}" data-price="{{ model.price }}" data-range="{{ model.range }}">
+            <img src="{{ model.image_path }}" alt="{{ model.name }}">
+            <h2>{{ model.name }}</h2>
+            <p class="desc">{{ model.description }}</p>
+            <h3 class="price-tag">Price: ₹{{ model.price }} Lakhs</h3>
+            <h3>Specifications</h3>
+            <ul class="spec-list">
+              <li><span>Range:</span> <span>{{ model.range }} km</span></li>
+              <li><span>Battery:</span> <span>{{ model.battery }} kWh</span></li>
+              <li><span>Charging Time:</span> <span>{{ model.charging_time }}</span></li>
+              <li><span>Top Speed:</span> <span>{{ model.top_speed }} km/h</span></li>
+            </ul>
+            <h3>Features</h3>
+            <ul class="features-list">
+              {% for feature in model.features.split(',') %}
+                <li>{{ feature.strip() }}</li>
+              {% endfor %}
+            </ul>
+            <div class="model-actions">
+              <a href="compare.html" class="btn-compare">Compare</a>
+              <a href="{{ model.learn_more_link }}" target="_blank" class="btn-learn">Learn More</a>
+            </div>
+          </div>
+          <!-- {% endfor %} -->
+        <!-- {% else %} -->
+        <!-- 1. Tata Nexon EV -->
+        <div class="model" data-brand="tata" data-price="14.49" data-range="489">
+          <img src="../static/model1.jpg" alt="Tata Nexon EV">
+          <h2>Tata Nexon EV</h2>
+          <p class="desc">A compact and extremely popular electric SUV that defines Indian electric mobility.</p>
+          <h3 class="price-tag">Price: ₹14.49 Lakhs</h3>
+          <h3>Specifications</h3>
+          <ul class="spec-list">
+            <li><span>Range:</span> <span>489 km</span></li>
+            <li><span>Battery:</span> <span>46 kWh</span></li>
+            <li><span>Charging Time:</span> <span>6 hrs</span></li>
+            <li><span>Top Speed:</span> <span>150 km/h</span></li>
+          </ul>
+          <h3>Features</h3>
+          <ul class="features-list">
+            <li>Fast Charging</li>
+            <li>Connected Car Technology</li>
+            <li>Regenerative Braking</li>
+          </ul>
+          <div class="model-actions">
+            <a href="compare.html" class="btn-compare">Compare</a>
+            <a href="https://ev.tatamotors.com/nexon/ev.html" target="_blank" class="btn-learn">Learn More</a>
+          </div>
+        </div>
+
+        <!-- 2. Tata Punch EV -->
+        <div class="model" data-brand="tata" data-price="10.99" data-range="421">
+          <img src="../static/pics/punch.webp" alt="Tata Punch EV">
+          <h2>Tata Punch EV</h2>
+          <p class="desc">A stylish, compact SUV built on the new advanced acti.ev platform for pure electric convenience.</p>
+          <h3 class="price-tag">Price: ₹10.99 Lakhs</h3>
+          <h3>Specifications</h3>
+          <ul class="spec-list">
+            <li><span>Range:</span> <span>421 km</span></li>
+            <li><span>Battery:</span> <span>35 kWh</span></li>
+            <li><span>Charging Time:</span> <span>5 hrs</span></li>
+            <li><span>Top Speed:</span> <span>140 km/h</span></li>
+          </ul>
+          <h3>Features</h3>
+          <ul class="features-list">
+            <li>Fast Charging</li>
+            <li>Connected Car Technology</li>
+            <li>Regenerative Braking</li>
+          </ul>
+          <div class="model-actions">
+            <a href="compare.html" class="btn-compare">Compare</a>
+            <a href="https://ev.tatamotors.com/punch/ev.html" target="_blank" class="btn-learn">Learn More</a>
+          </div>
+        </div>
+
+        <!-- 3. Tata Tiago EV -->
+        <div class="model" data-brand="tata" data-price="7.99" data-range="250">
+          <img src="../static/pics/tiago.webp" alt="Tata Tiago EV">
+          <h2>Tata Tiago EV</h2>
+          <p class="desc">An affordable and compact electric hatchback designed for daily city driving.</p>
+          <h3 class="price-tag">Price: ₹7.99 Lakhs</h3>
+          <h3>Specifications</h3>
+          <ul class="spec-list">
+            <li><span>Range:</span> <span>250 km</span></li>
+            <li><span>Battery:</span> <span>19.2 kWh</span></li>
+            <li><span>Charging Time:</span> <span>4 hrs</span></li>
+            <li><span>Top Speed:</span> <span>120 km/h</span></li>
+          </ul>
+          <h3>Features</h3>
+          <ul class="features-list">
+            <li>Fast Charging</li>
+            <li>Connected Car Technology</li>
+            <li>Regenerative Braking</li>
+          </ul>
+          <div class="model-actions">
+            <a href="compare.html" class="btn-compare">Compare</a>
+            <a href="https://ev.tatamotors.com/tiago/ev.html" target="_blank" class="btn-learn">Learn More</a>
+          </div>
+        </div>
+
+        <!-- 4. Tesla Model 3 -->
+        <div class="model" data-brand="tesla" data-price="39.90" data-range="513">
+          <img src="../static/pics/model3.webp" alt="Tesla Model 3">
+          <h2>Tesla Model 3</h2>
+          <p class="desc">A high-performance luxury electric sedan with class-leading drag and smart automation.</p>
+          <h3 class="price-tag">Price: ₹39.90 Lakhs</h3>
+          <h3>Specifications</h3>
+          <ul class="spec-list">
+            <li><span>Range:</span> <span>513 km</span></li>
+            <li><span>Battery:</span> <span>60 kWh</span></li>
+            <li><span>Charging Time:</span> <span>6.5 hrs</span></li>
+            <li><span>Top Speed:</span> <span>201 km/h</span></li>
+          </ul>
+          <h3>Features</h3>
+          <ul class="features-list">
+            <li>Fast Charging</li>
+            <li>Autopilot driver-assist</li>
+            <li>Regenerative Braking</li>
+          </ul>
+          <div class="model-actions">
+            <a href="compare.html" class="btn-compare">Compare</a>
+            <a href="https://www.tesla.com/model3" target="_blank" class="btn-learn">Learn More</a>
+          </div>
+        </div>
+
+        <!-- 5. Tesla Model Y -->
+        <div class="model" data-brand="tesla" data-price="49.90" data-range="533">
+          <img src="../static/pics/modely.avif" alt="Tesla Model Y">
+          <h2>Tesla Model Y</h2>
+          <p class="desc">A versatile and spacious electric crossover utility vehicle with dual electric motors.</p>
+          <h3 class="price-tag">Price: ₹49.90 Lakhs</h3>
+          <h3>Specifications</h3>
+          <ul class="spec-list">
+            <li><span>Range:</span> <span>533 km</span></li>
+            <li><span>Battery:</span> <span>75 kWh</span></li>
+            <li><span>Charging Time:</span> <span>7 hrs</span></li>
+            <li><span>Top Speed:</span> <span>217 km/h</span></li>
+          </ul>
+          <h3>Features</h3>
+          <ul class="features-list">
+            <li>Fast Charging</li>
+            <li>Connected Car Technology</li>
+            <li>Regenerative Braking</li>
+          </ul>
+          <div class="model-actions">
+            <a href="compare.html" class="btn-compare">Compare</a>
+            <a href="https://www.tesla.com/modely" target="_blank" class="btn-learn">Learn More</a>
+          </div>
+        </div>
+
+        <!-- 6. Hyundai Ioniq 5 -->
+        <div class="model" data-brand="hyundai" data-price="46.05" data-range="631">
+          <img src="../static/pics/hondai.webp" alt="Hyundai Ioniq 5">
+          <h2>Hyundai Ioniq 5</h2>
+          <p class="desc">A retro-futuristic SUV styled with geometric lighting patterns and V2L charging power.</p>
+          <h3 class="price-tag">Price: ₹46.05 Lakhs</h3>
+          <h3>Specifications</h3>
+          <ul class="spec-list">
+            <li><span>Range:</span> <span>631 km</span></li>
+            <li><span>Battery:</span> <span>72.6 kWh</span></li>
+            <li><span>Charging Time:</span> <span>6.8 hrs</span></li>
+            <li><span>Top Speed:</span> <span>185 km/h</span></li>
+          </ul>
+          <h3>Features</h3>
+          <ul class="features-list">
+            <li>Fast Charging</li>
+            <li>Connected Car Technology</li>
+            <li>Regenerative Braking</li>
+          </ul>
+          <div class="model-actions">
+            <a href="compare.html" class="btn-compare">Compare</a>
+            <a href="https://ioniq5.hyundai.co.in/" target="_blank" class="btn-learn">Learn More</a>
+          </div>
+        </div>
+
+        <!-- 7. Hyundai Kona Electric -->
+        <div class="model" data-brand="hyundai" data-price="23.84" data-range="452">
+          <img src="../static/pics/kona.jpg" alt="Hyundai Kona Electric">
+          <h2>Hyundai Kona Electric</h2>
+          <p class="desc">A reliable and sporty electric utility vehicle built with a sleek aerodynamic nose.</p>
+          <h3 class="price-tag">Price: ₹23.84 Lakhs</h3>
+          <h3>Specifications</h3>
+          <ul class="spec-list">
+            <li><span>Range:</span> <span>452 km</span></li>
+            <li><span>Battery:</span> <span>39.2 kWh</span></li>
+            <li><span>Charging Time:</span> <span>6 hrs</span></li>
+            <li><span>Top Speed:</span> <span>167 km/h</span></li>
+          </ul>
+          <h3>Features</h3>
+          <ul class="features-list">
+            <li>Fast Charging</li>
+            <li>Connected Car Technology</li>
+            <li>Regenerative Braking</li>
+          </ul>
+          <div class="model-actions">
+            <a href="compare.html" class="btn-compare">Compare</a>
+            <a href="https://www.hyundai.com/in/en/find-a-car/kona-electric/highlights" target="_blank" class="btn-learn">Learn More</a>
+          </div>
+        </div>
+
+        <!-- 8. BMW i4 -->
+        <div class="model" data-brand="bmw" data-price="72.50" data-range="590">
+          <img src="../static/pics/bmwi4.jpg" alt="BMW i4">
+          <h2>BMW i4</h2>
+          <p class="desc">A dynamic, stylish, and high-performance all-electric gran coupe with classical handling.</p>
+          <h3 class="price-tag">Price: ₹72.50 Lakhs</h3>
+          <h3>Specifications</h3>
+          <ul class="spec-list">
+            <li><span>Range:</span> <span>590 km</span></li>
+            <li><span>Battery:</span> <span>80.7 kWh</span></li>
+            <li><span>Charging Time:</span> <span>8.5 hrs</span></li>
+            <li><span>Top Speed:</span> <span>190 km/h</span></li>
+          </ul>
+          <h3>Features</h3>
+          <ul class="features-list">
+            <li>Fast Charging</li>
+            <li>Connected Car Technology</li>
+            <li>Regenerative Braking</li>
+          </ul>
+          <div class="model-actions">
+            <a href="compare.html" class="btn-compare">Compare</a>
+            <a href="https://www.bmw-bavariamotors.in/new-cars/i-series-i4" target="_blank" class="btn-learn">Learn More</a>
+          </div>
+        </div>
+
+        <!-- 9. BMW iX -->
+        <div class="model" data-brand="bmw" data-price="121.00" data-range="425">
+          <img src="../static/pics/bmwix.jpg" alt="BMW iX">
+          <h2>BMW iX</h2>
+          <p class="desc">A high-end luxury electric SUV with a futuristic modular front grille and smart cabin tech.</p>
+          <h3 class="price-tag">Price: ₹121.00 Lakhs</h3>
+          <h3>Specifications</h3>
+          <ul class="spec-list">
+            <li><span>Range:</span> <span>425 km</span></li>
+            <li><span>Battery:</span> <span>71 kWh</span></li>
+            <li><span>Charging Time:</span> <span>7.2 hrs</span></li>
+            <li><span>Top Speed:</span> <span>200 km/h</span></li>
+          </ul>
+          <h3>Features</h3>
+          <ul class="features-list">
+            <li>Fast Charging</li>
+            <li>Connected Car Technology</li>
+            <li>Regenerative Braking</li>
+          </ul>
+          <div class="model-actions">
+            <a href="compare.html" class="btn-compare">Compare</a>
+            <a href="https://www.bmw-bavariamotors.in/new-cars/bmw-iX" target="_blank" class="btn-learn">Learn More</a>
+          </div>
+        </div>
+        <!-- {% endif %} -->
+      </div>
+    </div>
+  </main>
+
+  <footer class="ev-footer">
+    <div class="ev-footer-logo"><span>⚡</span> EV Guide</div>
+    <div class="ev-footer-links" style="display:flex;flex-wrap:wrap;gap:18px">
+      <div>
+        <h4 style="color:#fff;font-size:12px;margin-bottom:6px">Main Pages</h4>
+        <a href="index.html">Home</a> | 
+        <a href="about.html">About EVs</a> | 
+        <a href="models.html">Models</a> | 
+        <a href="compare.html">Compare</a> | 
+        <a href="charging.html">Charging</a> | 
+        <a href="maintenance.html">Maintenance</a> | 
+        <a href="feedback.html">Feedback</a>
+      </div>
+      <div>
+        <h4 style="color:#fff;font-size:12px;margin-bottom:6px">Interactive Tools</h4>
+        <a href="buying-guide.html">Buying Guide</a> | 
+        <a href="stations.html">Stations Locator</a> | 
+        <a href="calculator.html">Savings Calculator</a> | 
+        <a href="environment.html">Carbon Savings</a> | 
+        <a href="myths.html">Myths & Facts</a> | 
+        <a href="incentives.html">Government Incentives</a>
+      </div>
+    </div>
+    <div style="color:#64748b;font-size:12px;text-align:right">
+      <strong>Contact:</strong> support@evguide.org | +91 98765 43210
+    </div>
+    <div class="ev-footer-copy">© 2024 Electric Vehicle Guidance Portal. All rights reserved.</div>
+  </footer>
+
+</div>
+
+<script>
+  function filterModels() {
+    const query = document.getElementById("searchInput").value.toLowerCase();
+    
+    // Brand checks
+    const selectedBrands = Array.from(document.querySelectorAll(".brand-filter:checked")).map(cb => cb.value);
+    // Price checks
+    const selectedPrices = Array.from(document.querySelectorAll(".price-filter:checked")).map(cb => cb.value);
+    // Range checks
+    const selectedRanges = Array.from(document.querySelectorAll(".range-filter:checked")).map(cb => cb.value);
+
+    const cards = document.querySelectorAll(".model");
+
+    cards.forEach(card => {
+      const brand = card.getAttribute("data-brand");
+      const price = parseFloat(card.getAttribute("data-price"));
+      const range = parseFloat(card.getAttribute("data-range"));
+      const title = card.querySelector("h2").innerText.toLowerCase();
+      const desc = card.querySelector("p.desc").innerText.toLowerCase();
+
+      // Search match
+      const matchesSearch = title.includes(query) || desc.includes(query) || brand.includes(query);
+
+      // Brand match
+      const matchesBrand = selectedBrands.length === 0 || selectedBrands.includes(brand);
+
+      // Price match
+      let matchesPrice = selectedPrices.length === 0;
+      if (selectedPrices.includes("under-10") && price < 10) matchesPrice = true;
+      if (selectedPrices.includes("10-20") && price >= 10 && price <= 20) matchesPrice = true;
+      if (selectedPrices.includes("above-20") && price > 20) matchesPrice = true;
+
+      // Range match
+      let matchesRange = selectedRanges.length === 0;
+      if (selectedRanges.includes("under-300") && range < 300) matchesRange = true;
+      if (selectedRanges.includes("300-500") && range >= 300 && range <= 500) matchesRange = true;
+      if (selectedRanges.includes("above-500") && range > 500) matchesRange = true;
+
+      if (matchesSearch && matchesBrand && matchesPrice && matchesRange) {
+        card.style.display = "flex";
+      } else {
+        card.style.display = "none";
+      }
+    });
+  }
+</script>
+
+</body>
+</html>

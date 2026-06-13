@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Myths vs Facts - EV Guidance Portal</title>
+  <link rel="stylesheet" href="../static/styles.css">
+  <link rel="stylesheet" href="../static/myths.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+</head>
+<body>
+
+<div class="ev-wrap">
+
+  <!-- Section 1: Navigation Bar -->
+  <nav class="ev-nav">
+    <div class="ev-logo">
+      <i class="ti ti-bolt" aria-hidden="true"></i>
+      ⚡ EV Guide
+    </div>
+    <div class="ev-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About EVs</a>
+      <a href="models.html">EV Models</a>
+      <a href="compare.html">Compare EVs</a>
+      <a href="charging.html">Charging Guide</a>
+      <a href="maintenance.html">Maintenance</a>
+      <div class="ev-dropdown">
+        <button class="ev-dropdown-btn active">Tools &amp; Guides <i class="ti ti-chevron-down"></i></button>
+        <div class="ev-dropdown-content">
+          <a href="buying-guide.html">EV Buying Guide</a>
+          <a href="calculator.html">Cost Savings Calculator</a>
+          <a href="environment.html">Environmental Impact</a>
+          <a href="stations.html">Charging Station Locator</a>
+          <a href="incentives.html">Government Incentives</a>
+          <a href="myths.html" class="active">EV Myths vs Facts</a>
+        </div>
+      </div>
+      <a href="feedback.html">Feedback</a>
+    </div>
+  </nav>
+
+  <main>
+    <!-- Section 1: Header -->
+    <section id="introduction">
+      <h2>EV Myths vs Facts</h2>
+      <p>Debunk common misconceptions about electric vehicles and get the facts backed by research and real-world statistics.</p>
+    </section>
+
+    <!-- Myths vs Facts Accordion -->
+    <div class="accordion-container">
+      
+      <!-- Myth 1 -->
+      <div class="myth-card" onclick="toggleAccordion(this)">
+        <div class="myth-header">
+          <div class="myth-title-row">
+            <span class="myth-badge">Myth</span>
+            <span class="myth-text">EVs are slow and lack driving performance</span>
+          </div>
+          <div class="myth-icon"><i class="ti ti-chevron-down"></i></div>
+        </div>
+        <div class="fact-content">
+          <div class="fact-inner">
+            <span class="fact-badge">Fact</span>
+            <div class="fact-explanation">
+              <strong>EVs have instant torque.</strong> Unlike internal combustion engines that must rev up to deliver power, electric motors provide maximum torque from 0 RPM. This allows for rapid, quiet, and extremely smooth acceleration.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Myth 2 -->
+      <div class="myth-card" onclick="toggleAccordion(this)">
+        <div class="myth-header">
+          <div class="myth-title-row">
+            <span class="myth-badge">Myth</span>
+            <span class="myth-text">EV batteries degrade and die within a few years</span>
+          </div>
+          <div class="myth-icon"><i class="ti ti-chevron-down"></i></div>
+        </div>
+        <div class="fact-content">
+          <div class="fact-inner">
+            <span class="fact-badge">Fact</span>
+            <div class="fact-explanation">
+              <strong>Most last 8-15 years.</strong> Battery management systems (BMS) manage charging limits and cooling. Most EV manufacturers offer warranties on the battery pack for 8 years or 160,000 km, guaranteeing at least 70-80% capacity retention.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Myth 3 -->
+      <div class="myth-card" onclick="toggleAccordion(this)">
+        <div class="myth-header">
+          <div class="myth-title-row">
+            <span class="myth-badge">Myth</span>
+            <span class="myth-text">EVs are unsafe to drive and represent fire hazards</span>
+          </div>
+          <div class="myth-icon"><i class="ti ti-chevron-down"></i></div>
+        </div>
+        <div class="fact-content">
+          <div class="fact-inner">
+            <span class="fact-badge">Fact</span>
+            <div class="fact-explanation">
+              <strong>EVs undergo strict safety testing.</strong> Electric vehicles must pass the exact same crash safety testing standards as regular cars. In addition, battery enclosures are heavily protected to prevent thermal runaway, and EV models routinely earn 5-star safety scores from global crash assessors.
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="ev-footer">
+    <div class="ev-footer-logo"><span>⚡</span> EV Guide</div>
+    <div class="ev-footer-links" style="display:flex;flex-wrap:wrap;gap:18px">
+      <div>
+        <h4 style="color:#fff;font-size:12px;margin-bottom:6px">Main Pages</h4>
+        <a href="index.html">Home</a> | 
+        <a href="about.html">About EVs</a> | 
+        <a href="models.html">Models</a> | 
+        <a href="compare.html">Compare</a> | 
+        <a href="charging.html">Charging</a> | 
+        <a href="maintenance.html">Maintenance</a> | 
+        <a href="feedback.html">Feedback</a>
+      </div>
+      <div>
+        <h4 style="color:#fff;font-size:12px;margin-bottom:6px">Interactive Tools</h4>
+        <a href="buying-guide.html">Buying Guide</a> | 
+        <a href="stations.html">Stations Locator</a> | 
+        <a href="calculator.html">Savings Calculator</a> | 
+        <a href="environment.html">Carbon Savings</a> | 
+        <a href="myths.html">Myths & Facts</a> | 
+        <a href="incentives.html">Government Incentives</a>
+      </div>
+    </div>
+    <div style="color:#64748b;font-size:12px;text-align:right">
+      <strong>Contact:</strong> support@evguide.org | +91 98765 43210
+    </div>
+    <div class="ev-footer-copy">© 2024 Electric Vehicle Guidance Portal. All rights reserved.</div>
+  </footer>
+
+</div>
+
+<script>
+  function toggleAccordion(card) {
+    const isActive = card.classList.contains("active");
+    
+    // Close other accordion cards
+    document.querySelectorAll(".myth-card").forEach(c => {
+      c.classList.remove("active");
+      c.querySelector(".fact-content").style.maxHeight = null;
+    });
+
+    if (!isActive) {
+      card.classList.add("active");
+      const content = card.querySelector(".fact-content");
+      content.style.maxHeight = content.scrollHeight + "px";
+    }
+  }
+</script>
+
+</body>
+</html>

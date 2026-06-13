@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Station Locator - EV Guidance Portal</title>
+  <link rel="stylesheet" href="../static/styles.css">
+  <link rel="stylesheet" href="../static/stations.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+</head>
+<body>
+
+<div class="ev-wrap">
+
+  <!-- Section 1: Navigation Bar -->
+  <nav class="ev-nav">
+    <div class="ev-logo">
+      <i class="ti ti-bolt" aria-hidden="true"></i>
+      ⚡ EV Guide
+    </div>
+    <div class="ev-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About EVs</a>
+      <a href="models.html">EV Models</a>
+      <a href="compare.html">Compare EVs</a>
+      <a href="charging.html">Charging Guide</a>
+      <a href="maintenance.html">Maintenance</a>
+      <div class="ev-dropdown">
+        <button class="ev-dropdown-btn active">Tools &amp; Guides <i class="ti ti-chevron-down"></i></button>
+        <div class="ev-dropdown-content">
+          <a href="buying-guide.html">EV Buying Guide</a>
+          <a href="calculator.html">Cost Savings Calculator</a>
+          <a href="environment.html">Environmental Impact</a>
+          <a href="stations.html" class="active">Charging Station Locator</a>
+          <a href="incentives.html">Government Incentives</a>
+          <a href="myths.html">EV Myths vs Facts</a>
+        </div>
+      </div>
+      <a href="feedback.html">Feedback</a>
+    </div>
+  </nav>
+
+  <main>
+    <!-- Section 1: Introduction -->
+    <section id="introduction">
+      <h2>Charging Station Locator</h2>
+      <p>Find EV charging stations in your area. Type your city name to filter nearby stations.</p>
+    </section>
+
+    <!-- Search Area -->
+    <div class="search-panel">
+      <div class="search-field">
+        <input type="text" id="citySearchInput" placeholder="Enter City Name (e.g., Pune, Wakad, Mumbai, Delhi)..." onkeypress="handleSearchKeyPress(event)">
+      </div>
+      <button class="btn-search" onclick="searchStations()">Search Station</button>
+    </div>
+
+    <!-- Results Area -->
+    <div class="results-header" id="resultsCount">Showing all available stations</div>
+    
+    <div class="stations-grid" id="stationsGrid">
+      <!-- {% if stations %} -->
+        <!-- {% for station in stations %} -->
+        <div class="station-card dynamic-only" {{ 'style="display: flex !important;"'|safe }} data-city="{{ station.city|lower }}">
+          <h3>{{ station.name }}</h3>
+          <div class="station-meta"><i class="ti ti-map-pin"></i> {{ station.address }}</div>
+          <div class="badge-row">
+            {% if station.is_fast %}
+              <span class="badge fast">Fast Charging Available</span>
+            {% else %}
+              <span class="badge level2">Level 2 Charging</span>
+            {% endif %}
+            {% if station.open_hours %}
+              <span class="badge open24">{{ station.open_hours }}</span>
+            {% endif %}
+          </div>
+          <a href="{{ station.directions_link }}" target="_blank" class="btn-navigate">Get Directions ↗</a>
+        </div>
+        <!-- {% endfor %} -->
+      <!-- {% else %} -->
+      <!-- Station 1 -->
+      <div class="station-card" data-city="pune">
+        <h3>EV Hub Pune</h3>
+        <div class="station-meta"><i class="ti ti-map-pin"></i> Senapati Bapat Road, Pune</div>
+        <div class="badge-row">
+          <span class="badge fast">Fast Charging Available</span>
+          <span class="badge open24">Open 24 Hours</span>
+        </div>
+        <a href="https://maps.google.com" target="_blank" class="btn-navigate">Get Directions ↗</a>
+      </div>
+
+      <!-- Station 2 -->
+      <div class="station-card" data-city="wakad pune">
+        <h3>Charge Point Wakad</h3>
+        <div class="station-meta"><i class="ti ti-map-pin"></i> Wakad Road, Wakad, Pune</div>
+        <div class="badge-row">
+          <span class="badge level2">Level 2 Charging</span>
+          <span class="badge open-timed">Open 6 AM - 11 PM</span>
+        </div>
+        <a href="https://maps.google.com" target="_blank" class="btn-navigate">Get Directions ↗</a>
+      </div>
+
+      <!-- Station 3 -->
+      <div class="station-card" data-city="mumbai">
+        <h3>Mumbai Expressway Charger</h3>
+        <div class="station-meta"><i class="ti ti-map-pin"></i> Vashi Toll Plaza, Navi Mumbai</div>
+        <div class="badge-row">
+          <span class="badge fast">Fast Charging Available</span>
+          <span class="badge open24">Open 24 Hours</span>
+        </div>
+        <a href="https://maps.google.com" target="_blank" class="btn-navigate">Get Directions ↗</a>
+      </div>
+
+      <!-- Station 4 -->
+      <div class="station-card" data-city="delhi">
+        <h3>Delhi EV Plaza</h3>
+        <div class="station-meta"><i class="ti ti-map-pin"></i> Connaught Place, New Delhi</div>
+        <div class="badge-row">
+          <span class="badge fast">Fast Charging Available</span>
+          <span class="badge open-timed">Open 8 AM - 10 PM</span>
+        </div>
+        <a href="https://maps.google.com" target="_blank" class="btn-navigate">Get Directions ↗</a>
+      </div>
+
+      <!-- Station 5 -->
+      <div class="station-card" data-city="bangalore">
+        <h3>Bengaluru Tech Park Charging</h3>
+        <div class="station-meta"><i class="ti ti-map-pin"></i> Whitefield, Bangalore</div>
+        <div class="badge-row">
+          <span class="badge level2">Level 2 Charging</span>
+          <span class="badge open24">Open 24 Hours</span>
+        </div>
+        <a href="https://maps.google.com" target="_blank" class="btn-navigate">Get Directions ↗</a>
+      </div>
+      <!-- {% endif %} -->
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="ev-footer">
+    <div class="ev-footer-logo"><span>⚡</span> EV Guide</div>
+    <div class="ev-footer-links" style="display:flex;flex-wrap:wrap;gap:18px">
+      <div>
+        <h4 style="color:#fff;font-size:12px;margin-bottom:6px">Main Pages</h4>
+        <a href="index.html">Home</a> | 
+        <a href="about.html">About EVs</a> | 
+        <a href="models.html">Models</a> | 
+        <a href="compare.html">Compare</a> | 
+        <a href="charging.html">Charging</a> | 
+        <a href="maintenance.html">Maintenance</a> | 
+        <a href="feedback.html">Feedback</a>
+      </div>
+      <div>
+        <h4 style="color:#fff;font-size:12px;margin-bottom:6px">Interactive Tools</h4>
+        <a href="buying-guide.html">Buying Guide</a> | 
+        <a href="stations.html">Stations Locator</a> | 
+        <a href="calculator.html">Savings Calculator</a> | 
+        <a href="environment.html">Carbon Savings</a> | 
+        <a href="myths.html">Myths & Facts</a> | 
+        <a href="incentives.html">Government Incentives</a>
+      </div>
+    </div>
+    <div style="color:#64748b;font-size:12px;text-align:right">
+      <strong>Contact:</strong> support@evguide.org | +91 98765 43210
+    </div>
+    <div class="ev-footer-copy">© 2024 Electric Vehicle Guidance Portal. All rights reserved.</div>
+  </footer>
+
+</div>
+
+<script>
+  function handleSearchKeyPress(event) {
+    if (event.key === "Enter") {
+      searchStations();
+    }
+  }
+
+  function searchStations() {
+    const query = document.getElementById("citySearchInput").value.trim().toLowerCase();
+    const cards = document.querySelectorAll(".station-card");
+    let visibleCount = 0;
+
+    cards.forEach(card => {
+      const city = card.getAttribute("data-city");
+      if (!query || city.includes(query)) {
+        card.style.display = "flex";
+        visibleCount++;
+      } else {
+        card.style.display = "none";
+      }
+    });
+
+    const resultsCount = document.getElementById("resultsCount");
+    if (!query) {
+      resultsCount.textContent = "Showing all available stations";
+    } else {
+      resultsCount.textContent = `Found ${visibleCount} station(s) matching "${query}"`;
+    }
+  }
+</script>
+
+</body>
+</html>

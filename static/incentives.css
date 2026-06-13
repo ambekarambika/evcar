@@ -1,0 +1,159 @@
+/* Custom Styles for Government Incentives Page, using variables from styles.css */
+
+main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 48px 28px;
+}
+
+#introduction {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  color: #fff;
+  padding: 40px 24px;
+  border-radius: var(--border-radius-lg);
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+#introduction h2 {
+  color: #fff;
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+#introduction p {
+  color: #38bdf8;
+  font-size: 15px;
+}
+
+section {
+  margin-bottom: 40px;
+}
+
+section h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 20px;
+  border-left: 4px solid #22d3ee;
+  padding-left: 12px;
+}
+
+/* Symmetrical card for national incentives */
+.national-card {
+  background: var(--color-background-primary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-lg);
+  padding: 28px;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+}
+
+.national-card h3 {
+  font-size: 17px;
+  color: var(--color-text-primary);
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.national-card ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.national-card ul li {
+  font-size: 14.5px;
+  color: var(--color-text-secondary);
+  position: relative;
+  padding-left: 24px;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.national-card ul li::before {
+  content: "✔";
+  color: #10b981;
+  position: absolute;
+  left: 0;
+  font-weight: bold;
+}
+
+/* State Tab System */
+.tabs-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--color-border-tertiary);
+  padding-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  background: transparent;
+  color: var(--color-text-secondary);
+  border: none;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background .2s, color .2s;
+}
+
+.tab-btn:hover {
+  color: var(--color-text-primary);
+  background-color: var(--color-background-secondary);
+}
+
+.tab-btn.active {
+  background-color: #22d3ee;
+  color: #0f172a;
+}
+
+/* Symmetrical State Card */
+.state-details-card {
+  background: var(--color-background-primary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-lg);
+  padding: 28px;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.state-details-card h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 16px;
+}
+
+.state-details-card ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.state-details-card ul li {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  padding: 10px 0;
+  border-bottom: 0.5px dashed var(--color-border-tertiary);
+  display: flex;
+  justify-content: space-between;
+}
+
+.state-details-card ul li:last-child {
+  border-bottom: none;
+}
+
+.state-details-card ul li span.label {
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.state-details-card ul li span.val {
+  text-align: right;
+}

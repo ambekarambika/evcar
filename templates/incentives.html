@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Government Incentives - EV Guidance Portal</title>
+  <link rel="stylesheet" href="../static/styles.css">
+  <link rel="stylesheet" href="../static/incentives.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+</head>
+<body>
+
+<div class="ev-wrap">
+
+  <!-- Section 1: Navigation Bar -->
+  <nav class="ev-nav">
+    <div class="ev-logo">
+      <i class="ti ti-bolt" aria-hidden="true"></i>
+      ⚡ EV Guide
+    </div>
+    <div class="ev-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About EVs</a>
+      <a href="models.html">EV Models</a>
+      <a href="compare.html">Compare EVs</a>
+      <a href="charging.html">Charging Guide</a>
+      <a href="maintenance.html">Maintenance</a>
+      <div class="ev-dropdown">
+        <button class="ev-dropdown-btn active">Tools &amp; Guides <i class="ti ti-chevron-down"></i></button>
+        <div class="ev-dropdown-content">
+          <a href="buying-guide.html">EV Buying Guide</a>
+          <a href="calculator.html">Cost Savings Calculator</a>
+          <a href="environment.html">Environmental Impact</a>
+          <a href="stations.html">Charging Station Locator</a>
+          <a href="incentives.html" class="active">Government Incentives</a>
+          <a href="myths.html">EV Myths vs Facts</a>
+        </div>
+      </div>
+      <a href="feedback.html">Feedback</a>
+    </div>
+  </nav>
+
+  <main>
+    <!-- Section 1: Header -->
+    <section id="introduction">
+      <h2>Government Incentives</h2>
+      <p>Explore purchase subsidies, tax exemptions, and registration incentives provided by national and state governments in India.</p>
+    </section>
+
+    <!-- Section 1: National Incentives -->
+    <section id="national">
+      <h2>National Incentives</h2>
+      <div class="national-card">
+        <h3>FAME India Scheme (Faster Adoption & Manufacturing of EVs)</h3>
+        <ul>
+          <li><strong>Direct Purchase Subsidies:</strong> Direct subsidies linked to the battery capacity (e.g., ₹10,000 per kWh) for qualified vehicles.</li>
+          <li><strong>Reduced GST Rates:</strong> Goods and Services Tax (GST) on electric vehicles is capped at a low 5% compared to up to 28% for combustion vehicles.</li>
+          <li><strong>Registration Exemption:</strong> Road tax and registration fees are completely waived at national levels for pure electric drivetrains.</li>
+          <li><strong>Income Tax Deductions:</strong> Individual tax deductions of up to ₹1.5 Lakhs on interest paid for electric vehicle loans (Section 80EEB).</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Section 2: State Incentives -->
+    <section id="state">
+      <h2>State Incentives</h2>
+      
+      <!-- Tabs Selector -->
+      <div class="tabs-container">
+        <button class="tab-btn active" onclick="switchState('maharashtra', this)">Maharashtra</button>
+        <button class="tab-btn" onclick="switchState('gujarat', this)">Gujarat</button>
+        <button class="tab-btn" onclick="switchState('delhi', this)">Delhi</button>
+        <button class="tab-btn" onclick="switchState('karnataka', this)">Karnataka</button>
+      </div>
+
+      <!-- State Content Output -->
+      <div class="state-details-card" id="stateDetailsCard">
+        <h3 id="stateName">Maharashtra EV Policy</h3>
+        <ul id="stateIncentivesList">
+          <!-- Populated by JS -->
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="ev-footer">
+    <div class="ev-footer-logo"><span>⚡</span> EV Guide</div>
+    <div class="ev-footer-links" style="display:flex;flex-wrap:wrap;gap:18px">
+      <div>
+        <h4 style="color:#fff;font-size:12px;margin-bottom:6px">Main Pages</h4>
+        <a href="index.html">Home</a> | 
+        <a href="about.html">About EVs</a> | 
+        <a href="models.html">Models</a> | 
+        <a href="compare.html">Compare</a> | 
+        <a href="charging.html">Charging</a> | 
+        <a href="maintenance.html">Maintenance</a> | 
+        <a href="feedback.html">Feedback</a>
+      </div>
+      <div>
+        <h4 style="color:#fff;font-size:12px;margin-bottom:6px">Interactive Tools</h4>
+        <a href="buying-guide.html">Buying Guide</a> | 
+        <a href="stations.html">Stations Locator</a> | 
+        <a href="calculator.html">Savings Calculator</a> | 
+        <a href="environment.html">Carbon Savings</a> | 
+        <a href="myths.html">Myths & Facts</a> | 
+        <a href="incentives.html">Government Incentives</a>
+      </div>
+    </div>
+    <div style="color:#64748b;font-size:12px;text-align:right">
+      <strong>Contact:</strong> support@evguide.org | +91 98765 43210
+    </div>
+    <div class="ev-footer-copy">© 2024 Electric Vehicle Guidance Portal. All rights reserved.</div>
+  </footer>
+
+</div>
+
+<script>
+  // State Policy Database
+  const stateDatabase = {
+    maharashtra: {
+      name: "Maharashtra EV Policy",
+      perks: [
+        { label: "Purchase Subsidy", val: "₹5,000 per kWh (Up to ₹1.5 Lakhs max subsidy)" },
+        { label: "Road Tax Waiver", val: "100% exempted for all battery electric vehicles" },
+        { label: "Registration Fees", val: "100% exempted" },
+        { label: "Charger Assistance", val: "₹10,000 subsidy on home charging equipment installation" }
+      ]
+    },
+    gujarat: {
+      name: "Gujarat EV Policy",
+      perks: [
+        { label: "Purchase Subsidy", val: "₹10,000 per kWh (Up to ₹1.5 Lakhs max subsidy)" },
+        { label: "Road Tax Waiver", val: "50% exemption on standard state road tax rates" },
+        { label: "Registration Fees", val: "100% waived" },
+        { label: "Special Incentives", val: "Additional support for establishing state battery recycling plants" }
+      ]
+    },
+    delhi: {
+      name: "Delhi EV Policy",
+      perks: [
+        { label: "Purchase Subsidy", val: "₹10,000 per kWh for electric cars (up to ₹1.5 Lakhs max)" },
+        { label: "Road Tax Waiver", val: "100% exempted for BEVs registered in NCR" },
+        { label: "Registration Fees", val: "100% exempted" },
+        { label: "Scrappage Incentive", val: "Up to ₹15,000 for scrapping old fossil-fuel vehicles" }
+      ]
+    },
+    karnataka: {
+      name: "Karnataka EV Policy",
+      perks: [
+        { label: "Purchase Subsidy", val: "No direct purchase subsidies for private electric cars" },
+        { label: "Road Tax Waiver", val: "100% exempted on all electric passenger vehicles" },
+        { label: "Registration Fees", val: "100% exempted" },
+        { label: "Charging Setup", val: "Fast charging infrastructure setup across major industrial hubs" }
+      ]
+    }
+  };
+
+  function switchState(stateKey, element) {
+    // Active tab button styling
+    document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
+    element.classList.add("active");
+
+    const policy = stateDatabase[stateKey];
+    
+    // Update Heading
+    document.getElementById("stateName").textContent = policy.name;
+
+    // Populate List
+    const list = document.getElementById("stateIncentivesList");
+    list.innerHTML = "";
+
+    // Symmetrical fade transition animation trigger by recreating elements
+    policy.perks.forEach(perk => {
+      const li = document.createElement("li");
+      li.innerHTML = `<span class="label">${perk.label}</span><span class="val">${perk.val}</span>`;
+      list.appendChild(li);
+    });
+  }
+
+  // Load Maharashtra by default
+  document.addEventListener("DOMContentLoaded", () => {
+    const defaultBtn = document.querySelector(".tab-btn");
+    switchState('maharashtra', defaultBtn);
+  });
+</script>
+
+</body>
+</html>

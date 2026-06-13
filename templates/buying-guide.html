@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EV Buying Guide - EV Guidance Portal</title>
+  <link rel="stylesheet" href="../static/styles.css">
+  <link rel="stylesheet" href="../static/buying.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+</head>
+<body>
+
+<div class="ev-wrap">
+
+  <!-- Section 1: Navigation Bar -->
+  <nav class="ev-nav">
+    <div class="ev-logo">
+      <i class="ti ti-bolt" aria-hidden="true"></i>
+      ⚡ EV Guide
+    </div>
+    <div class="ev-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About EVs</a>
+      <a href="models.html">EV Models</a>
+      <a href="compare.html">Compare EVs</a>
+      <a href="charging.html">Charging Guide</a>
+      <a href="maintenance.html">Maintenance</a>
+      <div class="ev-dropdown">
+        <button class="ev-dropdown-btn active">Tools &amp; Guides <i class="ti ti-chevron-down"></i></button>
+        <div class="ev-dropdown-content">
+          <a href="buying-guide.html" class="active">EV Buying Guide</a>
+          <a href="calculator.html">Cost Savings Calculator</a>
+          <a href="environment.html">Environmental Impact</a>
+          <a href="stations.html">Charging Station Locator</a>
+          <a href="incentives.html">Government Incentives</a>
+          <a href="myths.html">EV Myths vs Facts</a>
+        </div>
+      </div>
+      <a href="feedback.html">Feedback</a>
+    </div>
+  </nav>
+
+  <main>
+    <!-- Section 1: Introduction -->
+    <section id="introduction">
+      <h2>EV Buying Guide</h2>
+      <p>Answer a few quick questions about your budget, distance, and charging access to receive a personalized electric vehicle recommendation.</p>
+    </section>
+
+    <!-- Section 1: Questionnaire -->
+    <div class="questionnaire-card">
+      <form id="buyingGuideForm" onsubmit="calculateRecommendation(event)">
+        
+        <!-- Budget -->
+        <div class="question-group">
+          <label class="q-title">What is your purchase budget?</label>
+          <div class="choices-grid">
+            <label class="choice-item">
+              <input type="radio" name="budget" value="below-10" required checked>
+              <span class="choice-box">Below ₹10 Lakhs</span>
+            </label>
+            <label class="choice-item">
+              <input type="radio" name="budget" value="10-20">
+              <span class="choice-box">₹10-20 Lakhs</span>
+            </label>
+            <label class="choice-item">
+              <input type="radio" name="budget" value="above-20">
+              <span class="choice-box">Above ₹20 Lakhs</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Daily Distance -->
+        <div class="question-group">
+          <label class="q-title">What is your average daily driving distance?</label>
+          <div class="choices-grid">
+            <label class="choice-item">
+              <input type="radio" name="distance" value="20" required checked>
+              <span class="choice-box">20 km</span>
+            </label>
+            <label class="choice-item">
+              <input type="radio" name="distance" value="50">
+              <span class="choice-box">50 km</span>
+            </label>
+            <label class="choice-item">
+              <input type="radio" name="distance" value="100">
+              <span class="choice-box">100 km+</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Home Charging -->
+        <div class="question-group">
+          <label class="q-title">Do you have access to home charging?</label>
+          <div class="choices-grid">
+            <label class="choice-item">
+              <input type="radio" name="homeCharging" value="yes" required checked>
+              <span class="choice-box">Yes</span>
+            </label>
+            <label class="choice-item">
+              <input type="radio" name="homeCharging" value="no">
+              <span class="choice-box">No</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Vehicle Type -->
+        <div class="question-group">
+          <label class="q-title">What is your preferred vehicle type?</label>
+          <div class="choices-grid">
+            <label class="choice-item">
+              <input type="radio" name="vehicleType" value="hatchback" required checked>
+              <span class="choice-box">Hatchback</span>
+            </label>
+            <label class="choice-item">
+              <input type="radio" name="vehicleType" value="suv">
+              <span class="choice-box">SUV</span>
+            </label>
+            <label class="choice-item">
+              <input type="radio" name="vehicleType" value="sedan">
+              <span class="choice-box">Sedan</span>
+            </label>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit-q">Generate Recommendation</button>
+      </form>
+    </div>
+
+    <!-- Section 2: Recommendation Card -->
+    <div class="recommendation-result" id="recommendationResult">
+      <h3>Recommended EV <span class="badge" id="recBadge">Matches Your Needs</span></h3>
+      <div class="rec-car-name" id="recCarName">Tata Nexon EV</div>
+      <div class="rec-reason" id="recCarReason">Reason placeholder</div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="ev-footer">
+    <div class="ev-footer-logo"><span>⚡</span> EV Guide</div>
+    <div class="ev-footer-links" style="display:flex;flex-wrap:wrap;gap:18px">
+      <div>
+        <h4 style="color:#fff;font-size:12px;margin-bottom:6px">Main Pages</h4>
+        <a href="index.html">Home</a> | 
+        <a href="about.html">About EVs</a> | 
+        <a href="models.html">Models</a> | 
+        <a href="compare.html">Compare</a> | 
+        <a href="charging.html">Charging</a> | 
+        <a href="maintenance.html">Maintenance</a> | 
+        <a href="feedback.html">Feedback</a>
+      </div>
+      <div>
+        <h4 style="color:#fff;font-size:12px;margin-bottom:6px">Interactive Tools</h4>
+        <a href="buying-guide.html">Buying Guide</a> | 
+        <a href="stations.html">Stations Locator</a> | 
+        <a href="calculator.html">Savings Calculator</a> | 
+        <a href="environment.html">Carbon Savings</a> | 
+        <a href="myths.html">Myths & Facts</a> | 
+        <a href="incentives.html">Government Incentives</a>
+      </div>
+    </div>
+    <div style="color:#64748b;font-size:12px;text-align:right">
+      <strong>Contact:</strong> support@evguide.org | +91 98765 43210
+    </div>
+    <div class="ev-footer-copy">© 2024 Electric Vehicle Guidance Portal. All rights reserved.</div>
+  </footer>
+
+</div>
+
+<script>
+  function calculateRecommendation(event) {
+    event.preventDefault();
+
+    const form = document.getElementById("buyingGuideForm");
+    const budget = form.elements["budget"].value;
+    const distance = form.elements["distance"].value;
+    const homeCharging = form.elements["homeCharging"].value;
+    const vehicleType = form.elements["vehicleType"].value;
+
+    let recCar = "";
+    let recReason = "";
+
+    // Recommendation logic tree
+    if (budget === "below-10") {
+      if (vehicleType === "suv" || distance === "50") {
+        recCar = "Tata Punch EV (Base)";
+        recReason = "The Tata Punch EV fits your budget under ₹10 Lakhs, offering compact SUV styling and a range of up to 315 km, which easily covers your daily travel needs.";
+      } else {
+        recCar = "Tata Tiago EV";
+        recReason = "The Tata Tiago EV Hatchback is the best match. It fits your budget perfectly, is highly nimble in city traffic, and offers cheap running costs for a 20-50 km daily commute.";
+      }
+    } else if (budget === "10-20") {
+      if (vehicleType === "hatchback") {
+        recCar = "Tata Tiago EV (Long Range)";
+        recReason = "The Tata Tiago EV Long Range fits your budget and daily travel needs, offering a larger battery capacity and premium features for comfortable city drives.";
+      } else if (vehicleType === "sedan") {
+        recCar = "Tata Nexon EV (Creative)";
+        recReason = "As there are limited sedans in this bracket, the Nexon EV is suggested for its spacious cabin. It matches your budget, offers home charging compatibility, and handles highway commutes effortlessly.";
+      } else {
+        recCar = "Tata Nexon EV";
+        recReason = "The Tata Nexon EV is the recommended choice. It fits your budget, easily covers your daily distance, and is ideal for home charging routines, delivering high reliability and resale values.";
+      }
+    } else { // above-20
+      if (vehicleType === "suv") {
+        recCar = "Hyundai Ioniq 5";
+        recReason = "The Hyundai Ioniq 5 premium SUV is recommended. It offers a huge 631 km range, handles long distances, and features ultra-fast DC charging which is ideal if you lack dedicated home charging.";
+      } else if (vehicleType === "sedan") {
+        recCar = "Tesla Model 3";
+        recReason = "The Tesla Model 3 sedan is recommended for its performance, autopilot features, excellent efficiency, and long-distance driving range exceeding 500 km.";
+      } else {
+        recCar = "BMW i4";
+        recReason = "The BMW i4 offers a premium gran coupe driving experience with a class-leading range of 590 km, which fits your premium budget and daily travel requirements.";
+      }
+    }
+
+    // Update Result Card
+    document.getElementById("recCarName").textContent = recCar;
+    document.getElementById("recCarReason").textContent = recReason;
+
+    // Show Card
+    const resultCard = document.getElementById("recommendationResult");
+    resultCard.style.display = "block";
+    resultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,138 @@
+/* Custom Styles for EV Myths vs Facts Page, using variables from styles.css */
+
+main {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 48px 28px;
+}
+
+#introduction {
+  background: linear-gradient(135deg, #0f172a 0%, #3a1c3e 100%);
+  color: #fff;
+  padding: 40px 24px;
+  border-radius: var(--border-radius-lg);
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+#introduction h2 {
+  color: #fff;
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+#introduction p {
+  color: #e879f9;
+  font-size: 15px;
+}
+
+/* Accordion Wrapper */
+.accordion-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 48px;
+}
+
+/* Accordion Item Card */
+.myth-card {
+  background: var(--color-background-primary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+  transition: border-color .2s;
+}
+
+.myth-header {
+  padding: 20px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  background-color: var(--color-background-primary);
+  user-select: none;
+  transition: background .2s;
+}
+
+.myth-header:hover {
+  background-color: var(--color-background-secondary);
+}
+
+.myth-title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.myth-badge {
+  background-color: rgba(239, 68, 68, 0.12);
+  color: #ef4444;
+  border: 0.5px solid rgba(239, 68, 68, 0.3);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.myth-text {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.myth-icon {
+  font-size: 18px;
+  color: var(--color-text-secondary);
+  transition: transform 0.2s;
+}
+
+/* Fact content panel (collapsible) */
+.fact-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+  background-color: var(--color-background-secondary);
+  border-top: 0px solid var(--color-border-tertiary);
+}
+
+.fact-inner {
+  padding: 24px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.fact-badge {
+  background-color: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+  border: 0.5px solid rgba(16, 185, 129, 0.3);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  flex-shrink: 0;
+  height: fit-content;
+}
+
+.fact-explanation {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+/* Active State Styles */
+.myth-card.active {
+  border-color: #22d3ee;
+}
+
+.myth-card.active .myth-icon {
+  transform: rotate(180deg);
+  color: #22d3ee;
+}
+
+.myth-card.active .fact-content {
+  border-top-width: 0.5px;
+}

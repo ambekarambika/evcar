@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About EVs - EV Guidance Portal</title>
+  <link rel="stylesheet" href="../static/styles.css">
+  <link rel="stylesheet" href="../static/about.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+</head>
+<body>
+
+<div class="ev-wrap">
+
+  <!-- Section 1: Navigation Bar -->
+  <nav class="ev-nav">
+    <div class="ev-logo">
+      <i class="ti ti-bolt" aria-hidden="true"></i>
+      ⚡ EV Guide
+    </div>
+    <div class="ev-links">
+      <a href="index.html">Home</a>
+      <a href="about.html" class="active">About EVs</a>
+      <a href="models.html">EV Models</a>
+      <a href="compare.html">Compare EVs</a>
+      <a href="charging.html">Charging Guide</a>
+      <a href="maintenance.html">Maintenance</a>
+      <div class="ev-dropdown">
+        <button class="ev-dropdown-btn">Tools &amp; Guides <i class="ti ti-chevron-down"></i></button>
+        <div class="ev-dropdown-content">
+          <a href="buying-guide.html">EV Buying Guide</a>
+          <a href="calculator.html">Cost Savings Calculator</a>
+          <a href="environment.html">Environmental Impact</a>
+          <a href="stations.html">Charging Station Locator</a>
+          <a href="incentives.html">Government Incentives</a>
+          <a href="myths.html">EV Myths vs Facts</a>
+        </div>
+      </div>
+      <a href="feedback.html">Feedback</a>
+    </div>
+  </nav>
+
+  <main>
+    <!-- Section 1: Introduction -->
+    <section id="introduction">
+      <h2>About Electric Vehicles</h2>
+      <p>Electric Vehicles (EVs) are automobiles powered by electric motors using energy stored in rechargeable batteries.</p>
+    </section>
+    
+    <!-- Section 2: How EVs Work -->
+    <section id="how-evs-work">
+      <h2>How EVs Work</h2>
+      
+      <!-- Flowchart Diagram -->
+      <div class="flowchart-container">
+        <div class="flowchart-node">Battery Pack</div>
+        <div class="flowchart-arrow">➔</div>
+        <div class="flowchart-node">Controller</div>
+        <div class="flowchart-arrow">➔</div>
+        <div class="flowchart-node">Electric Motor</div>
+        <div class="flowchart-arrow">➔</div>
+        <div class="flowchart-node">Transmission</div>
+        <div class="flowchart-arrow">➔</div>
+        <div class="flowchart-node">Wheels</div>
+      </div>
+
+      <div class="how-it-works-text">
+        <div class="work-node-desc">
+          <h4>Battery Pack</h4>
+          <p>Stores electrical energy for the vehicle. This is charged from the electricity grid and provides direct current (DC) power.</p>
+        </div>
+        <div class="work-node-desc">
+          <h4>Controller</h4>
+          <p>Controls power delivery from the battery. It regulates voltage and manages the speed of the electric motor depending on throttle input.</p>
+        </div>
+        <div class="work-node-desc">
+          <h4>Electric Motor</h4>
+          <p>Converts electrical energy into mechanical movement, providing torque and turning the wheels.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: Types of EVs -->
+    <section id="types">
+      <h2>Types of EVs</h2>
+      <div class="card-grid">
+        <!-- BEV -->
+        <div class="card">
+          <div class="card-content">
+            <h3>Battery Electric Vehicle (BEV)</h3>
+            <p>Runs entirely on a battery-powered electric drivetrain, storing electricity in a pack charged from external grid ports.</p>
+            <ul>
+              <li><span>Characteristics:</span> <span>No fuel tank, Fully electric</span></li>
+              <li><span>Examples:</span> <span>Tata Nexon EV, Tesla Model 3</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- PHEV -->
+        <div class="card">
+          <div class="card-content">
+            <h3>Plug-in Hybrid EV (PHEV)</h3>
+            <p>Combines a combustion engine with an electric motor. The battery pack can be charged externally and runs in electric-first mode.</p>
+            <ul>
+              <li><span>Characteristics:</span> <span>Electric + Petrol Engine</span></li>
+              <li><span>Examples:</span> <span>Toyota Prius Prime</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- HEV -->
+        <div class="card">
+          <div class="card-content">
+            <h3>Hybrid Electric Vehicle (HEV)</h3>
+            <p>Dual power sources that split work automatically. The battery cannot be plugged in and is charged solely on the go.</p>
+            <ul>
+              <li><span>Characteristics:</span> <span>Regenerative charging</span></li>
+              <li><span>Examples:</span> <span>Toyota Camry Hybrid</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: Benefits -->
+    <section id="benefits">
+      <h2>Benefits of Electric Vehicles</h2>
+      <div class="benefits-grid">
+        <div class="benefit-box">
+          <h3>Environmental Benefits</h3>
+          <ul>
+            <li>Reduced greenhouse gases</li>
+            <li>Cleaner air due to zero tailpipe emissions</li>
+          </ul>
+        </div>
+        <div class="benefit-box">
+          <h3>Economic Benefits</h3>
+          <ul>
+            <li>Lower fuel expenses (electricity vs petrol)</li>
+            <li>Government subsidies and tax credits</li>
+          </ul>
+        </div>
+        <div class="benefit-box">
+          <h3>Performance Benefits</h3>
+          <ul>
+            <li>Faster acceleration with instant torque</li>
+            <li>Quiet and comfortable cabin operation</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="ev-footer">
+    <div class="ev-footer-logo"><span>⚡</span> EV Guide</div>
+    <div class="ev-footer-links" style="display:flex;flex-wrap:wrap;gap:18px">
+      <div>
+        <h4 style="color:#fff;font-size:12px;margin-bottom:6px">Main Pages</h4>
+        <a href="index.html">Home</a> | 
+        <a href="about.html">About EVs</a> | 
+        <a href="models.html">Models</a> | 
+        <a href="compare.html">Compare</a> | 
+        <a href="charging.html">Charging</a> | 
+        <a href="maintenance.html">Maintenance</a> | 
+        <a href="feedback.html">Feedback</a>
+      </div>
+      <div>
+        <h4 style="color:#fff;font-size:12px;margin-bottom:6px">Interactive Tools</h4>
+        <a href="buying-guide.html">Buying Guide</a> | 
+        <a href="stations.html">Stations Locator</a> | 
+        <a href="calculator.html">Savings Calculator</a> | 
+        <a href="environment.html">Carbon Savings</a> | 
+        <a href="myths.html">Myths & Facts</a> | 
+        <a href="incentives.html">Government Incentives</a>
+      </div>
+    </div>
+    <div style="color:#64748b;font-size:12px;text-align:right">
+      <strong>Contact:</strong> support@evguide.org | +91 98765 43210
+    </div>
+    <div class="ev-footer-copy">© 2024 Electric Vehicle Guidance Portal. All rights reserved.</div>
+  </footer>
+
+</div>
+
+</body>
+</html>

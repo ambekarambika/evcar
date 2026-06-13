@@ -1,0 +1,190 @@
+/* Custom Styles for EV Charging Station Locator, using variables from styles.css */
+
+main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 48px 28px;
+}
+
+#introduction {
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
+  color: #fff;
+  padding: 40px 24px;
+  border-radius: var(--border-radius-lg);
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+#introduction h2 {
+  color: #fff;
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+#introduction p {
+  color: #94a3b8;
+  font-size: 15px;
+}
+
+/* Search panel layout */
+.search-panel {
+  background: var(--color-background-primary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-lg);
+  padding: 24px;
+  display: flex;
+  gap: 16px;
+  margin-bottom: 32px;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+}
+
+.search-field {
+  flex-grow: 1;
+}
+
+.search-field input {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 14.5px;
+  border: 1px solid var(--color-border-tertiary);
+  border-radius: 8px;
+  outline: none;
+  background-color: var(--color-background-primary);
+  color: var(--color-text-primary);
+  transition: border-color .2s, box-shadow .2s;
+}
+
+.search-field input:focus {
+  border-color: #22d3ee;
+  box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.15);
+}
+
+.btn-search {
+  background-color: #22d3ee;
+  color: #0f172a;
+  border: none;
+  font-weight: 600;
+  padding: 0 28px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: opacity .2s;
+}
+
+.btn-search:hover {
+  opacity: .88;
+}
+
+/* Results Section */
+.results-header {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 16px;
+}
+
+.stations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.station-card {
+  background: var(--color-background-primary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-lg);
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  transition: transform .2s, box-shadow .2s;
+}
+
+.station-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+}
+
+.station-card h3 {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 8px;
+}
+
+.station-card .station-meta {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.station-card .station-meta i {
+  color: #22d3ee;
+}
+
+.station-card .badge-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.station-card .badge {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+.station-card .badge.fast {
+  background-color: rgba(34, 211, 238, 0.12);
+  color: #22d3ee;
+  border: 0.5px solid rgba(34, 211, 238, 0.3);
+}
+
+.station-card .badge.level2 {
+  background-color: rgba(167, 139, 250, 0.12);
+  color: #a78bfa;
+  border: 0.5px solid rgba(167, 139, 250, 0.3);
+}
+
+.station-card .badge.open24 {
+  background-color: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+  border: 0.5px solid rgba(16, 185, 129, 0.3);
+}
+
+.station-card .badge.open-timed {
+  background-color: rgba(245, 158, 11, 0.12);
+  color: #f59e0b;
+  border: 0.5px solid rgba(245, 158, 11, 0.3);
+}
+
+.station-card .btn-navigate {
+  background: var(--color-background-secondary);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border-tertiary);
+  padding: 8px;
+  border-radius: 6px;
+  font-size: 12.5px;
+  font-weight: 500;
+  text-decoration: none;
+  text-align: center;
+  margin-top: auto;
+  transition: background .2s;
+}
+
+.station-card .btn-navigate:hover {
+  background: var(--color-border-tertiary);
+}
+
+@media (max-width: 600px) {
+  .search-panel {
+    flex-direction: column;
+  }
+  .btn-search {
+    padding: 12px;
+  }
+}
