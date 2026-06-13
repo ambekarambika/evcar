@@ -1,21 +1,40 @@
+import pymysql
+
 # =====================================================================
-# STEP 1: DATABASE CONNECTION GUIDE (Raw SQL)
+# DATABASE CONNECTION CONFIGURATION (MySQL)
 # =====================================================================
-# To implement database connectivity in this file:
-# 
-# 1. Import the sqlite3 library:
-#    import sqlite3
-#
-# 2. Define your database file name:
-#    DATABASE_FILE = "ev_database.db"
-#
-# 3. Create a connection function:
-#    - Open a connection to your SQLite database file using:
-#      sqlite3.connect(DATABASE_FILE)
-#    - Configure row_factory so that column values can be fetched by name:
-#      conn.row_factory = sqlite3.Row
-#    - Return the connection object.
-#
-# 4. Call this connection function inside your FastAPI endpoints in main.py,
-#    always ensuring you close the connection at the end of each request.
-# =====================================================================
+# Change these values to match your local MySQL configuration:
+DB_HOST = "localhost"
+DB_USER = "root"
+DB_PASSWORD = "root"  # Enter your local MySQL password here
+DB_NAME = "ev_database"
+
+def get_db_connection():
+    """
+    Establishes a connection to the MySQL database.
+    Configures DictCursor so columns can be fetched dynamically by name.
+    """
+    return pymysql.connect(
+        host=DB_HOST,
+        user=DB_USER,
+        password=DB_PASSWORD,
+        database=DB_NAME,
+        cursorclass=pymysql.cursors.DictCursor
+    )
+
+def initialize_database_if_needed():
+    """
+    Establishes a connection to the MySQL server and creates the
+    database automatically if it does not exist.
+    """
+    conn = pymysql.connect(
+        host=DB_HOST,
+        user=DB_USER,
+        password=DB_PASSWORD
+    )
+    try:
+        with conn.cursor() as cursor:
+            cursor.execute(f"CREATE DATABASE IF NOT EXISTS {DB_NAME};")
+        conn.commit()
+    finally:
+        conn.close()

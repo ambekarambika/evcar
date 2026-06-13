@@ -1,27 +1,35 @@
 # =====================================================================
-# STEP 4: CRUD QUERY OPERATIONS GUIDE (Raw SQL)
+# CRUD QUERY OPERATIONS (MySQL)
 # =====================================================================
-# To write database CRUD handlers using raw SQL:
-#
-# Define Python functions that accept your database connection object (conn) and parameters:
-#
-# 1. Save Feedback record:
-#    - Write a function: save_feedback(conn, name, email, rating, category, feedback)
-#    - Create cursor: cursor = conn.cursor()
-#    - Execute INSERT SQL using parameterized values to prevent SQL Injection:
-#      cursor.execute("INSERT INTO feedbacks (name, email, rating, category, feedback) VALUES (?, ?, ?, ?, ?)", (name, email, rating, category, feedback))
-#    - Call conn.commit() to save changes.
-#
-# 2. Fetch EV Models:
-#    - Write a function: fetch_ev_models(conn)
-#    - Execute: SELECT * FROM ev_models
-#    - Return cursor.fetchall()
-#
-# 3. Fetch Charging Stations:
-#    - Write a function: fetch_stations(conn, city_query=None)
-#    - If city_query is provided, execute matching filter query:
-#      SELECT * FROM charging_stations WHERE LOWER(city) LIKE ?
-#      (Pass f"%{city_query.lower()}%" as the parameter)
-#    - Else execute: SELECT * FROM charging_stations
-#    - Return cursor.fetchall()
-# =====================================================================
+
+def save_feedback(conn, name, email, rating, category, feedback):
+    """
+    Saves a user feedback record in the database feedbacks table.
+    """
+    with conn.cursor() as cursor:
+        query = """
+        INSERT INTO feedbacks (name, email, rating, category, feedback)
+        VALUES (%s, %s, %s, %s, %s)
+        """
+        cursor.execute(query, (name, email, rating, category, feedback))
+    conn.commit()
+
+def fetch_ev_models(conn):
+    """
+    Fetches all electric vehicle models from the database ev_models table.
+    """
+    with conn.cursor() as cursor:
+        cursor.execute("SELECT * FROM ev_models")
+        return cursor.fetchall()
+
+def fetch_stations(conn, city_query=None):
+    """
+    Fetches charging station locations, optionally filtering by city pattern match.
+    """
+    with conn.cursor() as cursor:
+        if city_query:
+            query = "SELECT * FROM charging_stations WHERE LOWER(city) LIKE %s"
+            cursor.execute(query, (f"%{city_query.lower()}%",))
+        else:
+            cursor.execute("SELECT * FROM charging_stations")
+        return cursor.fetchall()

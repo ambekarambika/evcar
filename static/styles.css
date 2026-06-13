@@ -177,7 +177,7 @@ body{font-family:var(--font-sans);background:var(--color-background-tertiary);co
 
 /* Hide raw dynamic elements during static double-click rendering */
 .dynamic-only {
-  display: none !important;
+  display: none;
 }
 
 
