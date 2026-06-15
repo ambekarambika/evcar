@@ -1,3 +1,4 @@
+from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request, HTTPException, Depends
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
@@ -5,18 +6,10 @@ from fastapi.templating import Jinja2Templates
 from app import database, models, schemas, crud
 from app.auth import hash_password, verify_password, create_access_token, get_current_user_id
 
-app = FastAPI(title="EV Guidance Portal")
-
-# Mount static files folder
-app.mount("/static", StaticFiles(directory="static"), name="static")
-
-# Templates setup
-templates = Jinja2Templates(directory="templates")
-
-@app.on_event("startup")
-async def startup_event():
+@asynccontextmanager
+async def lifespan(app: FastAPI):
     """
-    Startup hook to initialize MySQL database database structure and seed data.
+    Lifespan context manager to handle database startup and initialization.
     """
     try:
         # Create database if not exists
@@ -59,13 +52,23 @@ async def startup_event():
     except Exception as e:
         print(f"WARNING: Failed to initialize database: {e}")
         print("Please run 'python setup_db.py' manually to diagnose and setup database.")
+    
+    yield
+
+app = FastAPI(title="EV Guidance Portal", lifespan=lifespan)
+
+# Mount static files folder
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+# Templates setup
+templates = Jinja2Templates(directory="templates")
 
 @app.get("/", response_class=HTMLResponse)
 async def read_index(request: Request):
     """
     Home page rendering endpoint.
     """
-    return templates.TemplateResponse("index.html", {"request": request})
+    return templates.TemplateResponse(request, "index.html")
 
 @app.get("/models.html", response_class=HTMLResponse)
 async def read_models(request: Request):
@@ -85,7 +88,7 @@ async def read_models(request: Request):
     # Extract unique brands dynamically from DB models
     brands = sorted(list(set(m["brand"] for m in db_models))) if db_models else []
     
-    return templates.TemplateResponse("models.html", {"request": request, "models": db_models, "brands": brands})
+    return templates.TemplateResponse(request, "models.html", {"models": db_models, "brands": brands})
 
 @app.get("/compare.html", response_class=HTMLResponse)
 async def read_compare(request: Request):
@@ -102,7 +105,7 @@ async def read_compare(request: Request):
         print(f"Error loading models from DB for compare: {e}")
         db_models = []
     
-    return templates.TemplateResponse("compare.html", {"request": request, "models": db_models})
+    return templates.TemplateResponse(request, "compare.html", {"models": db_models})
 
 @app.get("/buying-guide.html", response_class=HTMLResponse)
 async def read_buying_guide(request: Request):
@@ -119,7 +122,7 @@ async def read_buying_guide(request: Request):
         print(f"Error loading models from DB for buying guide: {e}")
         db_models = []
     
-    return templates.TemplateResponse("buying-guide.html", {"request": request, "models": db_models})
+    return templates.TemplateResponse(request, "buying-guide.html", {"models": db_models})
 
 @app.get("/stations.html", response_class=HTMLResponse)
 async def read_stations(request: Request, city: str = None):
@@ -136,7 +139,7 @@ async def read_stations(request: Request, city: str = None):
         print(f"Error loading stations from DB: {e}")
         db_stations = []
         
-    return templates.TemplateResponse("stations.html", {"request": request, "stations": db_stations})
+    return templates.TemplateResponse(request, "stations.html", {"stations": db_stations})
 
 @app.post("/submit_feedback")
 async def submit_feedback(submission: schemas.FeedbackSubmission):
@@ -193,7 +196,7 @@ async def read_page(request: Request, page: str):
     Catch-all endpoint for general static pages.
     """
     try:
-        return templates.TemplateResponse(f"{page}.html", {"request": request})
+        return templates.TemplateResponse(request, f"{page}.html")
     except Exception:
         raise HTTPException(status_code=404, detail="Page not found")
 
