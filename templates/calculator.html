@@ -18,7 +18,7 @@
       <i class="ti ti-bolt" aria-hidden="true"></i>
       ⚡ EV Guide
     </div>
-    <div class="ev-links">
+    <div class="ev-links" id="navLinks">
       <a href="index.html">Home</a>
       <a href="about.html">About EVs</a>
       <a href="models.html">EV Models</a>
@@ -36,7 +36,7 @@
           <a href="myths.html">EV Myths vs Facts</a>
         </div>
       </div>
-      <a href="feedback.html">Feedback</a>
+      <a href="dashboard.html" id="dashboardLink">Dashboard</a>
     </div>
   </nav>
 
@@ -133,7 +133,7 @@
         <a href="compare.html">Compare</a> | 
         <a href="charging.html">Charging</a> | 
         <a href="maintenance.html">Maintenance</a> | 
-        <a href="feedback.html">Feedback</a>
+        <a href="dashboard.html" id="dashboardLink">Dashboard</a>
       </div>
       <div>
         <h4 style="color:#fff;font-size:12px;margin-bottom:6px">Interactive Tools</h4>
@@ -206,6 +206,57 @@
   // Initialize on load
   document.addEventListener("DOMContentLoaded", () => {
     calculateSavings();
+  });
+</script>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+    const token = localStorage.getItem("token");
+    const username = localStorage.getItem("username");
+    const navLinks = document.getElementById("navLinks");
+    if (navLinks) {
+      const currentPage = window.location.pathname.split("/").pop() || "index.html";
+
+      // Highlight active link based on current page
+      const links = navLinks.querySelectorAll("a");
+      links.forEach(link => {
+        if (link.getAttribute("href") === currentPage) {
+          link.classList.add("active");
+        } else {
+          link.classList.remove("active");
+        }
+      });
+
+      if (token && username) {
+        // User is logged in
+        const dashLink = document.getElementById("dashboardLink");
+        if (dashLink) {
+          dashLink.textContent = `Dashboard (${username})`;
+        }
+        
+        const logoutLink = document.createElement("a");
+        logoutLink.href = "#";
+        logoutLink.textContent = "Logout";
+        logoutLink.style.color = "#f87171";
+        logoutLink.onclick = (e) => {
+          e.preventDefault();
+          localStorage.removeItem("token");
+          localStorage.removeItem("username");
+          window.location.href = "login.html";
+        };
+        navLinks.appendChild(logoutLink);
+      } else {
+        // User is not logged in
+        const loginLink = document.createElement("a");
+        loginLink.href = "login.html";
+        loginLink.textContent = "Login / Register";
+        if (currentPage === "login.html" || currentPage === "register.html") {
+          loginLink.classList.add("active");
+        }
+        navLinks.appendChild(loginLink);
+      }
+    }
   });
 </script>
 

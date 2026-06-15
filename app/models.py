@@ -45,6 +45,30 @@ CREATE TABLE IF NOT EXISTS charging_stations (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 """
 
+# 4. Users table schema
+CREATE_USERS_TABLE = """
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(100) NOT NULL UNIQUE,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+"""
+
+# 5. User Favorites table schema
+CREATE_FAVORITES_TABLE = """
+CREATE TABLE IF NOT EXISTS user_favorites (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    model_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (model_id) REFERENCES ev_models(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_user_model (user_id, model_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+"""
+
 # Seeding Data Datasets
 SEED_MODELS = [
     ("Tata Nexon EV", "tata", 14.49, 489, 46.0, "6 hrs", 150, "A compact and extremely popular electric SUV that defines Indian electric mobility.", "Fast Charging,Connected Car Technology,Regenerative Braking", "../static/model1.jpg", "https://ev.tatamotors.com/nexon/ev.html"),

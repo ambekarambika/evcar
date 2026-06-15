@@ -18,7 +18,7 @@
       <i class="ti ti-bolt" aria-hidden="true"></i>
       ⚡ EV Guide
     </div>
-    <div class="ev-links">
+    <div class="ev-links" id="navLinks">
       <a href="index.html">Home</a>
       <a href="about.html">About EVs</a>
       <a href="models.html">EV Models</a>
@@ -36,7 +36,7 @@
           <a href="myths.html">EV Myths vs Facts</a>
         </div>
       </div>
-      <a href="feedback.html">Feedback</a>
+      <a href="dashboard.html" id="dashboardLink">Dashboard</a>
     </div>
   </nav>
 
@@ -130,7 +130,7 @@
         <a href="compare.html">Compare</a> | 
         <a href="charging.html">Charging</a> | 
         <a href="maintenance.html">Maintenance</a> | 
-        <a href="feedback.html">Feedback</a>
+        <a href="dashboard.html" id="dashboardLink">Dashboard</a>
       </div>
       <div>
         <h4 style="color:#fff;font-size:12px;margin-bottom:6px">Interactive Tools</h4>
@@ -150,82 +150,116 @@
 
 </div>
 
-<script>
-  // Database of popular EV models for comparison
-  const evDatabase = {
-    nexon: {
-      name: "Tata Nexon EV",
-      priceVal: 14.49,
-      price: "₹14.49 Lakhs",
-      rangeVal: 489,
-      range: "489 km",
-      battery: "46 kWh",
-      charge: "6 hrs",
-      speed: "150 km/h",
-      safety: "5 Stars",
-      valScore: 92
-    },
-    punch: {
-      name: "Tata Punch EV",
-      priceVal: 10.99,
-      price: "₹10.99 Lakhs",
-      rangeVal: 421,
-      range: "421 km",
-      battery: "35 kWh",
-      charge: "5 hrs",
-      speed: "140 km/h",
-      safety: "5 Stars",
-      valScore: 94
-    },
-    tiago: {
-      name: "Tata Tiago EV",
-      priceVal: 7.99,
-      price: "₹7.99 Lakhs",
-      rangeVal: 250,
-      range: "250 km",
-      battery: "19.2 kWh",
-      charge: "4 hrs",
-      speed: "120 km/h",
-      safety: "4 Stars",
-      valScore: 95
-    },
-    model3: {
-      name: "Tesla Model 3",
-      priceVal: 39.90,
-      price: "₹39.90 Lakhs",
-      rangeVal: 513,
-      range: "513 km",
-      battery: "60 kWh",
-      charge: "6.5 hrs",
-      speed: "201 km/h",
-      safety: "5 Stars",
-      valScore: 82
-    },
-    ioniq5: {
-      name: "Hyundai Ioniq 5",
-      priceVal: 46.05,
-      price: "₹46.05 Lakhs",
-      rangeVal: 631,
-      range: "631 km",
-      battery: "72.6 kWh",
-      charge: "6.8 hrs",
-      speed: "185 km/h",
-      safety: "5 Stars",
-      valScore: 88
-    },
-    bmwi4: {
-      name: "BMW i4",
-      priceVal: 72.50,
-      price: "₹72.50 Lakhs",
-      rangeVal: 590,
-      range: "590 km",
-      battery: "80.7 kWh",
-      charge: "8.5 hrs",
-      speed: "190 km/h",
-      safety: "5 Stars",
-      valScore: 78
+<script id="ev-data" type="application/json">
+  {% if models %}
+    {
+      {% for model in models %}
+        "{{ model.name|lower|replace(' ', '_')|replace('\"', '') }}": {
+          "name": "{{ model.name|replace('\"', '\\\"') }}",
+          "priceVal": {{ model.price }},
+          "price": "₹{{ model.price }} Lakhs",
+          "rangeVal": {{ model.range }},
+          "range": "{{ model.range }} km",
+          "battery": "{{ model.battery }} kWh",
+          "charge": "{{ model.charging_time }}",
+          "speed": "{{ model.top_speed }} km/h",
+          "safety": "{{ '5 Stars' if model.price > 5 else 'N/A' }}",
+          "valScore": 90
+        }{% if not loop.last %},{% endif %}
+      {% endfor %}
     }
-  };
+  {% else %}
+    {}
+  {% endif %}
+</script>
+
+<script>
+  // Database of EV models loaded dynamically from DB
+  let evDatabase = {};
+  try {
+    const dataElement = document.getElementById("ev-data");
+    const parsedData = JSON.parse(dataElement.textContent.trim());
+    if (parsedData && Object.keys(parsedData).length > 0) {
+      evDatabase = parsedData;
+    } else {
+      throw new Error("No data loaded from DB");
+    }
+  } catch (e) {
+    evDatabase = {
+      nexon: {
+        name: "Tata Nexon EV",
+        priceVal: 14.49,
+        price: "₹14.49 Lakhs",
+        rangeVal: 489,
+        range: "489 km",
+        battery: "46 kWh",
+        charge: "6 hrs",
+        speed: "150 km/h",
+        safety: "5 Stars",
+        valScore: 92
+      },
+      punch: {
+        name: "Tata Punch EV",
+        priceVal: 10.99,
+        price: "₹10.99 Lakhs",
+        rangeVal: 421,
+        range: "421 km",
+        battery: "35 kWh",
+        charge: "5 hrs",
+        speed: "140 km/h",
+        safety: "5 Stars",
+        valScore: 94
+      },
+      tiago: {
+        name: "Tata Tiago EV",
+        priceVal: 7.99,
+        price: "₹7.99 Lakhs",
+        rangeVal: 250,
+        range: "250 km",
+        battery: "19.2 kWh",
+        charge: "4 hrs",
+        speed: "120 km/h",
+        safety: "4 Stars",
+        valScore: 95
+      },
+      model3: {
+        name: "Tesla Model 3",
+        priceVal: 39.90,
+        price: "₹39.90 Lakhs",
+        rangeVal: 513,
+        range: "513 km",
+        battery: "60 kWh",
+        charge: "6.5 hrs",
+        speed: "201 km/h",
+        safety: "5 Stars",
+        valScore: 82
+      },
+      ioniq5: {
+        name: "Hyundai Ioniq 5",
+        priceVal: 46.05,
+        price: "₹46.05 Lakhs",
+        rangeVal: 631,
+        range: "631 km",
+        battery: "72.6 kWh",
+        charge: "6.8 hrs",
+        speed: "185 km/h",
+        safety: "5 Stars",
+        valScore: 88
+      },
+      bmwi4: {
+        name: "BMW i4",
+        priceVal: 72.50,
+        price: "₹72.50 Lakhs",
+        rangeVal: 590,
+        range: "590 km",
+        battery: "80.7 kWh",
+        charge: "8.5 hrs",
+        speed: "190 km/h",
+        safety: "5 Stars",
+        valScore: 78
+      }
+    };
+  }
 
   // Populate Dropdowns
   document.addEventListener("DOMContentLoaded", () => {
@@ -311,6 +345,57 @@
 
     recText.innerHTML = reason;
   }
+</script>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+    const token = localStorage.getItem("token");
+    const username = localStorage.getItem("username");
+    const navLinks = document.getElementById("navLinks");
+    if (navLinks) {
+      const currentPage = window.location.pathname.split("/").pop() || "index.html";
+
+      // Highlight active link based on current page
+      const links = navLinks.querySelectorAll("a");
+      links.forEach(link => {
+        if (link.getAttribute("href") === currentPage) {
+          link.classList.add("active");
+        } else {
+          link.classList.remove("active");
+        }
+      });
+
+      if (token && username) {
+        // User is logged in
+        const dashLink = document.getElementById("dashboardLink");
+        if (dashLink) {
+          dashLink.textContent = `Dashboard (${username})`;
+        }
+        
+        const logoutLink = document.createElement("a");
+        logoutLink.href = "#";
+        logoutLink.textContent = "Logout";
+        logoutLink.style.color = "#f87171";
+        logoutLink.onclick = (e) => {
+          e.preventDefault();
+          localStorage.removeItem("token");
+          localStorage.removeItem("username");
+          window.location.href = "login.html";
+        };
+        navLinks.appendChild(logoutLink);
+      } else {
+        // User is not logged in
+        const loginLink = document.createElement("a");
+        loginLink.href = "login.html";
+        loginLink.textContent = "Login / Register";
+        if (currentPage === "login.html" || currentPage === "register.html") {
+          loginLink.classList.add("active");
+        }
+        navLinks.appendChild(loginLink);
+      }
+    }
+  });
 </script>
 
 </body>

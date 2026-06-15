@@ -7,6 +7,35 @@
   <link rel="stylesheet" href="../static/styles.css" />
   <link rel="stylesheet" href="../static/ev.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <style>
+    .btn-favorite {
+      background: rgba(56, 189, 248, 0.08) !important;
+      color: #38bdf8 !important;
+      border: 1px solid rgba(56, 189, 248, 0.2) !important;
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      width: 100%;
+      text-align: center;
+      margin-top: 6px;
+    }
+    .btn-favorite:hover {
+      background: #38bdf8 !important;
+      color: #0f172a !important;
+    }
+    .btn-favorite.active {
+      background: #eab308 !important;
+      color: #0f172a !important;
+      border-color: #eab308 !important;
+    }
+    .btn-favorite.active:hover {
+      background: #ca8a04 !important;
+      border-color: #ca8a04 !important;
+    }
+  </style>
 </head>
 <body>
 
@@ -18,7 +47,7 @@
       <i class="ti ti-bolt" aria-hidden="true"></i>
       ⚡ EV Guide
     </div>
-    <div class="ev-links">
+    <div class="ev-links" id="navLinks">
       <a href="index.html">Home</a>
       <a href="about.html">About EVs</a>
       <a href="models.html" class="active">EV Models</a>
@@ -36,7 +65,7 @@
           <a href="myths.html">EV Myths vs Facts</a>
         </div>
       </div>
-      <a href="feedback.html">Feedback</a>
+      <a href="dashboard.html" id="dashboardLink">Dashboard</a>
     </div>
   </nav>
 
@@ -59,18 +88,26 @@
         <!-- Brand Filters -->
         <div class="filter-group">
           <h4>Brand</h4>
-          <label class="checkbox-item">
-            <input type="checkbox" class="brand-filter" value="tata" onchange="filterModels()"> Tata
-          </label>
-          <label class="checkbox-item">
-            <input type="checkbox" class="brand-filter" value="tesla" onchange="filterModels()"> Tesla
-          </label>
-          <label class="checkbox-item">
-            <input type="checkbox" class="brand-filter" value="hyundai" onchange="filterModels()"> Hyundai
-          </label>
-          <label class="checkbox-item">
-            <input type="checkbox" class="brand-filter" value="bmw" onchange="filterModels()"> BMW
-          </label>
+          {% if brands %}
+            {% for brand in brands %}
+              <label class="checkbox-item">
+                <input type="checkbox" class="brand-filter" value="{{ brand }}" onchange="filterModels()"> {{ brand|capitalize }}
+              </label>
+            {% endfor %}
+          {% else %}
+            <label class="checkbox-item">
+              <input type="checkbox" class="brand-filter" value="tata" onchange="filterModels()"> Tata
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" class="brand-filter" value="tesla" onchange="filterModels()"> Tesla
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" class="brand-filter" value="hyundai" onchange="filterModels()"> Hyundai
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" class="brand-filter" value="bmw" onchange="filterModels()"> BMW
+            </label>
+          {% endif %}
         </div>
 
         <!-- Price Filters -->
@@ -126,6 +163,7 @@
             </ul>
             <div class="model-actions">
               <a href="compare.html" class="btn-compare">Compare</a>
+              <button class="btn-favorite" id="fav-btn-{{ model.id }}" onclick="toggleFavorite({{ model.id }})">⭐ Favorite</button>
               <a href="{{ model.learn_more_link }}" target="_blank" class="btn-learn">Learn More</a>
             </div>
           </div>
@@ -371,7 +409,7 @@
         <a href="compare.html">Compare</a> | 
         <a href="charging.html">Charging</a> | 
         <a href="maintenance.html">Maintenance</a> | 
-        <a href="feedback.html">Feedback</a>
+        <a href="dashboard.html">Dashboard</a>
       </div>
       <div>
         <h4 style="color:#fff;font-size:12px;margin-bottom:6px">Interactive Tools</h4>
@@ -436,6 +474,118 @@
       }
     });
   }
+
+  // Dynamic Authentication & Favorites Logic
+  async function toggleFavorite(modelId) {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("Please log in to save this vehicle to your favorites.");
+      window.location.href = "login.html";
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/favorites/toggle", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({ model_id: modelId })
+      });
+
+      if (!response.ok) throw new Error("Could not update favorite status");
+      const res = await response.json();
+      
+      const btn = document.getElementById(`fav-btn-${modelId}`);
+      if (btn) {
+        if (res.action === "added") {
+          btn.classList.add("active");
+          btn.textContent = "⭐ Favorited";
+        } else {
+          btn.classList.remove("active");
+          btn.textContent = "⭐ Favorite";
+        }
+      }
+      alert(res.message);
+    } catch (err) {
+      alert(err.message);
+    }
+  }
+
+  async function fetchAndMarkFavorites() {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    try {
+      const response = await fetch("/api/favorites", {
+        headers: { "Authorization": `Bearer ${token}` }
+      });
+      if (response.ok) {
+        const data = await response.json();
+        const favorites = data.favorites || [];
+        favorites.forEach(fav => {
+          const btn = document.getElementById(`fav-btn-${fav.id}`);
+          if (btn) {
+            btn.classList.add("active");
+            btn.textContent = "⭐ Favorited";
+          }
+        });
+      }
+    } catch (err) {
+      console.error("Failed to fetch favorites:", err);
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    fetchAndMarkFavorites();
+
+    const token = localStorage.getItem("token");
+    const username = localStorage.getItem("username");
+    const navLinks = document.getElementById("navLinks");
+    if (navLinks) {
+      const currentPage = window.location.pathname.split("/").pop() || "index.html";
+
+      // Highlight active link based on current page
+      const links = navLinks.querySelectorAll("a");
+      links.forEach(link => {
+        if (link.getAttribute("href") === currentPage) {
+          link.classList.add("active");
+        } else {
+          link.classList.remove("active");
+        }
+      });
+
+      if (token && username) {
+        // User is logged in
+        const dashLink = document.getElementById("dashboardLink");
+        if (dashLink) {
+          dashLink.textContent = `Dashboard (${username})`;
+        }
+        
+        const logoutLink = document.createElement("a");
+        logoutLink.href = "#";
+        logoutLink.textContent = "Logout";
+        logoutLink.style.color = "#f87171";
+        logoutLink.onclick = (e) => {
+          e.preventDefault();
+          localStorage.removeItem("token");
+          localStorage.removeItem("username");
+          window.location.href = "login.html";
+        };
+        navLinks.appendChild(logoutLink);
+      } else {
+        // User is not logged in
+        const loginLink = document.createElement("a");
+        loginLink.href = "login.html";
+        loginLink.textContent = "Login / Register";
+        if (currentPage === "login.html" || currentPage === "register.html") {
+          loginLink.classList.add("active");
+        }
+        navLinks.appendChild(loginLink);
+      }
+    }
+  });
 </script>
 
 </body>

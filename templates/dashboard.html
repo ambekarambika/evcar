@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Dashboard - EV Guidance Portal</title>
+  <link rel="stylesheet" href="../static/styles.css">
+  <link rel="stylesheet" href="../static/ev.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <style>
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    .dashboard-header {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      padding: 30px 40px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      margin-bottom: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .welcome-text h2 {
+      margin: 0 0 6px 0;
+      color: #fff;
+      font-size: 24px;
+      font-weight: 600;
+    }
+    .welcome-text p {
+      margin: 0;
+      color: #94a3b8;
+      font-size: 14px;
+    }
+    .btn-logout {
+      background: #ef4444;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .btn-logout:hover {
+      background: #dc2626;
+      transform: translateY(-1px);
+    }
+    .btn-logout:active {
+      transform: translateY(1px);
+    }
+
+    /* Dashboard Layout Grid */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 30px;
+      align-items: flex-start;
+    }
+    
+    .dashboard-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+    
+    .dashboard-card {
+      background: var(--color-background-primary);
+      border: 0.5px solid var(--color-border-tertiary);
+      border-radius: var(--border-radius-lg);
+      padding: 24px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+    }
+    
+    /* Profile Summary Card */
+    .profile-summary {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 30px 20px;
+    }
+    .profile-avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #22d3ee 0%, #0891b2 100%);
+      color: #0f172a;
+      font-size: 28px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 15px rgba(34, 211, 238, 0.25);
+    }
+    .profile-name {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      margin-bottom: 4px;
+    }
+    .profile-email {
+      font-size: 13.5px;
+      color: var(--color-text-secondary);
+      margin-bottom: 16px;
+    }
+    .profile-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #e1f5ee;
+      color: #0f6e56;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    
+    /* Integrated Feedback Card */
+    .feedback-card h3 {
+      font-size: 18px;
+      color: var(--color-text-primary);
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--color-border-tertiary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .feedback-card h3 i {
+      color: #a78bfa;
+    }
+    .feedback-card .form-group {
+      margin-bottom: 16px;
+    }
+    .feedback-card label {
+      display: block;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      margin-bottom: 6px;
+    }
+    .feedback-card input,
+    .feedback-card select,
+    .feedback-card textarea {
+      width: 100%;
+      padding: 10px 12px;
+      font-family: var(--font-sans);
+      font-size: 13.5px;
+      color: var(--color-text-primary);
+      background: var(--color-background-primary);
+      border: 1px solid var(--color-border-tertiary);
+      border-radius: 8px;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .feedback-card input:focus,
+    .feedback-card select:focus,
+    .feedback-card textarea:focus {
+      border-color: #22d3ee;
+      box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.15);
+    }
+    .feedback-card textarea {
+      resize: vertical;
+    }
+    .feedback-card button[type="submit"] {
+      display: block;
+      width: 100%;
+      background: #22d3ee;
+      color: #0f172a;
+      border: none;
+      font-weight: 600;
+      padding: 11px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13.5px;
+      transition: opacity .2s, transform 0.1s;
+    }
+    .feedback-card button[type="submit"]:hover {
+      opacity: .9;
+    }
+    .feedback-card button[type="submit"]:active {
+      transform: translateY(1px);
+    }
+    
+    /* Star Rating */
+    .star-rating-container {
+      display: flex;
+      gap: 6px;
+      flex-direction: row-reverse;
+      justify-content: flex-end;
+    }
+    .star-rating-container input[type="radio"] {
+      display: none;
+    }
+    .star-rating-container label {
+      font-size: 24px;
+      color: #cbd5e1;
+      cursor: pointer;
+      margin: 0;
+      transition: color 0.15s;
+    }
+    .star-rating-container input[type="radio"]:checked ~ label,
+    .star-rating-container label:hover,
+    .star-rating-container label:hover ~ label {
+      color: #f59e0b;
+    }
+
+    /* Favorites Catalog Section */
+    .favorites-section {
+      background: var(--color-background-primary);
+      border: 0.5px solid var(--color-border-tertiary);
+      border-radius: var(--border-radius-lg);
+      padding: 24px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+    }
+    .favorites-section h3 {
+      font-size: 18px;
+      color: var(--color-text-primary);
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--color-border-tertiary);
+      padding-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .favorites-section h3 i {
+      color: #eab308;
+    }
+    .no-favorites {
+      text-align: center;
+      padding: 60px 20px;
+      background: var(--color-background-secondary);
+      border-radius: 12px;
+      border: 1px dashed var(--color-border-tertiary);
+      color: var(--color-text-secondary);
+    }
+    .no-favorites i {
+      font-size: 44px;
+      margin-bottom: 12px;
+      color: #94a3b8;
+    }
+    .no-favorites p {
+      margin: 0 0 16px 0;
+      font-size: 14px;
+    }
+    .no-favorites .btn-browse {
+      display: inline-block;
+      background: #22d3ee;
+      color: #0f172a;
+      padding: 8px 18px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 13px;
+      transition: opacity 0.2s;
+    }
+    .no-favorites .btn-browse:hover {
+      opacity: 0.9;
+    }
+    .btn-remove-fav {
+      background: rgba(239, 68, 68, 0.08) !important;
+      color: #ef4444 !important;
+      border: 1px solid rgba(239, 68, 68, 0.15) !important;
+    }
+    .btn-remove-fav:hover {
+      background: #ef4444 !important;
+      color: #fff !important;
+    }
+
+    @media (max-width: 900px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="ev-wrap">
+
+  <!-- Section 1: Navigation Bar -->
+  <nav class="ev-nav">
+    <div class="ev-logo">
+      <i class="ti ti-bolt" aria-hidden="true"></i>
+      ⚡ EV Guide
+    </div>
+    <div class="ev-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="about.html">About EVs</a>
+      <a href="models.html">EV Models</a>
+      <a href="compare.html">Compare EVs</a>
+      <a href="charging.html">Charging Guide</a>
+      <a href="maintenance.html">Maintenance</a>
+      <div class="ev-dropdown">
+        <button class="ev-dropdown-btn">Tools &amp; Guides <i class="ti ti-chevron-down"></i></button>
+        <div class="ev-dropdown-content">
+          <a href="buying-guide.html">EV Buying Guide</a>
+          <a href="calculator.html">Cost Savings Calculator</a>
+          <a href="environment.html">Environmental Impact</a>
+          <a href="stations.html">Charging Station Locator</a>
+          <a href="incentives.html">Government Incentives</a>
+          <a href="myths.html">EV Myths vs Facts</a>
+        </div>
+      </div>
+      <a href="dashboard.html" id="dashboardLink">Dashboard</a>
+    </div>
+  </nav>
+
+  <main>
+    <!-- Welcome Header -->
+    <div class="dashboard-header">
+      <div class="welcome-text">
+        <h2 id="welcomeUser">Welcome</h2>
+        <p>Manage your saved electric vehicles and provide system feedback</p>
+      </div>
+      <div>
+        <button class="btn-logout" onclick="logoutUser()">Logout</button>
+      </div>
+    </div>
+
+    <!-- Dashboard Main Grid -->
+    <div class="dashboard-grid">
+      
+      <!-- Left Column: Profile Card and Feedback form -->
+      <aside class="dashboard-sidebar">
+        
+        <!-- Profile details -->
+        <div class="dashboard-card profile-summary">
+          <div class="profile-avatar" id="profileInitials">U</div>
+          <div class="profile-name" id="profileName">Loading...</div>
+          <div class="profile-email" id="profileEmail">Loading email...</div>
+          <div class="profile-badge"><i class="ti ti-shield-check"></i> Registered User</div>
+        </div>
+        
+        <!-- Feedback Form -->
+        <div class="dashboard-card feedback-card">
+          <h3><i class="ti ti-message-report"></i> Help Us Improve</h3>
+          <form id="feedbackForm">
+            <input type="hidden" id="feedbackName" name="name">
+            <input type="hidden" id="feedbackEmail" name="email">
+            
+            <div class="form-group">
+              <label>Rating</label>
+              <div class="star-rating-container">
+                <input type="radio" id="star5" name="rating" value="5" required>
+                <label for="star5" title="5 Stars">★</label>
+                <input type="radio" id="star4" name="rating" value="4">
+                <label for="star4" title="4 Stars">★</label>
+                <input type="radio" id="star3" name="rating" value="3">
+                <label for="star3" title="3 Stars">★</label>
+                <input type="radio" id="star2" name="rating" value="2">
+                <label for="star2" title="2 Stars">★</label>
+                <input type="radio" id="star1" name="rating" value="1">
+                <label for="star1" title="1 Star">★</label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="category">Category</label>
+              <select id="category" name="category" required>
+                <option value="" disabled selected>Select Category</option>
+                <option value="Suggestion">Suggestion</option>
+                <option value="Complaint">Complaint</option>
+                <option value="General Inquiry">General Inquiry</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="feedback">Feedback Message</label>
+              <textarea id="feedback" name="feedback" rows="4" placeholder="Your suggestion or inquiry..." required></textarea>
+            </div>
+
+            <button type="submit">Submit Feedback</button>
+          </form>
+        </div>
+        
+      </aside>
+
+      <!-- Right Column: Favorites list -->
+      <section class="favorites-section">
+        <h3><i class="ti ti-star"></i> My Favorite Vehicles</h3>
+        <div class="model-details" id="favoritesGrid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">
+          <div style="grid-column: 1/-1; text-align: center; color: #94a3b8; padding: 40px;">
+            <i class="ti ti-loader" style="font-size: 32px; animation: spin 1.5s linear infinite; display: inline-block;"></i>
+            <p>Loading favorites...</p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="ev-footer">
+    <div class="ev-footer-logo"><span>⚡</span> EV Guide</div>
+    <div class="ev-footer-links" style="display:flex;flex-wrap:wrap;gap:18px">
+      <div>
+        <h4 style="color:#fff;font-size:12px;margin-bottom:6px">Main Pages</h4>
+        <a href="index.html">Home</a> | 
+        <a href="about.html">About EVs</a> | 
+        <a href="models.html">Models</a> | 
+        <a href="compare.html">Compare</a> | 
+        <a href="charging.html">Charging</a> | 
+        <a href="maintenance.html">Maintenance</a> | 
+        <a href="dashboard.html">Dashboard</a>
+      </div>
+    </div>
+    <div style="color:#64748b;font-size:12px;text-align:right">
+      <strong>Contact:</strong> support@evguide.org | +91 98765 43210
+    </div>
+    <div class="ev-footer-copy">© 2024 Electric Vehicle Guidance Portal. All rights reserved.</div>
+  </footer>
+
+</div>
+
+<script>
+  // Authentication check on load
+  const token = localStorage.getItem("token");
+  if (!token) {
+    window.location.href = "login.html";
+  }
+
+  function logoutUser() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
+    window.location.href = "login.html";
+  }
+
+  async function loadProfile() {
+    try {
+      const response = await fetch("/api/me", {
+        headers: { "Authorization": `Bearer ${token}` }
+      });
+      if (!response.ok) throw new Error("Session expired. Please log in again.");
+      
+      const data = await response.json();
+      document.getElementById("welcomeUser").textContent = `Welcome, ${data.user.username}`;
+      document.getElementById("profileName").textContent = data.user.username;
+      document.getElementById("profileEmail").textContent = data.user.email;
+      
+      // Initials mapping
+      const initials = data.user.username.slice(0, 2).toUpperCase();
+      document.getElementById("profileInitials").textContent = initials;
+
+      // Pre-fill hidden inputs in feedback form
+      document.getElementById("feedbackName").value = data.user.username;
+      document.getElementById("feedbackEmail").value = data.user.email;
+    } catch (err) {
+      alert(err.message);
+      logoutUser();
+    }
+  }
+
+  async function loadFavorites() {
+    const grid = document.getElementById("favoritesGrid");
+    try {
+      const response = await fetch("/api/favorites", {
+        headers: { "Authorization": `Bearer ${token}` }
+      });
+      if (!response.ok) throw new Error("Could not load favorites");
+      
+      const data = await response.json();
+      const favorites = data.favorites || [];
+
+      if (favorites.length === 0) {
+        grid.innerHTML = `
+          <div class="no-favorites" style="grid-column: 1/-1;">
+            <i class="ti ti-star-off"></i>
+            <p>You haven't saved any EV models to your favorites yet.</p>
+            <a href="models.html" class="btn-browse">Browse EV Models</a>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = "";
+      favorites.forEach(model => {
+        const card = document.createElement("div");
+        card.className = "model";
+        card.id = `model-card-${model.id}`;
+        card.innerHTML = `
+          <img src="${model.image_path}" alt="${model.name}">
+          <h2>${model.name}</h2>
+          <p class="desc">${model.description}</p>
+          <h3 class="price-tag">Price: ₹${model.price} Lakhs</h3>
+          <h3>Specifications</h3>
+          <ul class="spec-list">
+            <li><span>Range:</span> <span>${model.range} km</span></li>
+            <li><span>Battery:</span> <span>${model.battery} kWh</span></li>
+            <li><span>Charging Time:</span> <span>${model.charging_time}</span></li>
+            <li><span>Top Speed:</span> <span>${model.top_speed} km/h</span></li>
+          </ul>
+          <div class="model-actions" style="margin-top:20px;">
+            <button class="btn-compare btn-remove-fav" onclick="removeFavorite(${model.id})">❌ Remove</button>
+            <a href="${model.learn_more_link}" target="_blank" class="btn-learn" style="width:50%;text-align:center;">Learn More</a>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    } catch (err) {
+      grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: #ef4444; padding: 40px;">Failed to load favorites list: ${err.message}</div>`;
+    }
+  }
+
+  async function removeFavorite(modelId) {
+    if (!confirm("Are you sure you want to remove this model from your favorites?")) return;
+    try {
+      const response = await fetch("/api/favorites/toggle", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({ model_id: modelId })
+      });
+
+      if (!response.ok) throw new Error("Failed to update favorite status");
+      
+      const card = document.getElementById(`model-card-${modelId}`);
+      if (card) {
+        card.style.opacity = "0";
+        card.style.transform = "scale(0.9)";
+        card.style.transition = "all 0.3s ease";
+        setTimeout(() => {
+          card.remove();
+          if (document.querySelectorAll(".favorites-section .model").length === 0) {
+            loadFavorites();
+          }
+        }, 300);
+      }
+    } catch (err) {
+      alert(err.message);
+    }
+  }
+
+  // Handle Feedback Submission
+  document.getElementById("feedbackForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+    const formData = new FormData(this);
+    const API_URL = "/submit_feedback";
+    
+    fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(Object.fromEntries(formData))
+    })
+    .then(response => response.json())
+    .then(data => {
+      alert(data.message);
+      document.getElementById("feedbackForm").reset();
+      // Keep hidden fields loaded
+      loadProfile();
+    })
+    .catch(error => {
+      console.error("Error:", error);
+      alert("An error occurred while submitting feedback.");
+    });
+  });
+
+  // Initial loads
+  document.addEventListener("DOMContentLoaded", () => {
+    loadProfile();
+    loadFavorites();
+
+    // Setup navbar dynamic session status
+    const username = localStorage.getItem("username");
+    const navLinks = document.getElementById("navLinks");
+    const currentPage = window.location.pathname.split("/").pop() || "index.html";
+
+    // Highlight links
+    const links = navLinks.querySelectorAll("a");
+    links.forEach(link => {
+      if (link.getAttribute("href") === currentPage) {
+        link.classList.add("active");
+      } else {
+        link.classList.remove("active");
+      }
+    });
+
+    const dashLink = document.getElementById("dashboardLink");
+    if (dashLink) {
+      dashLink.textContent = `Dashboard (${username})`;
+    }
+    
+    const logoutLink = document.createElement("a");
+    logoutLink.href = "#";
+    logoutLink.textContent = "Logout";
+    logoutLink.style.color = "#f87171";
+    logoutLink.onclick = (e) => {
+      e.preventDefault();
+      logoutUser();
+    };
+    
+    navLinks.appendChild(logoutLink);
+  });
+</script>
+
+<style>
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+</style>
+
+</body>
+</html>

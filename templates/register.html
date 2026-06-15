@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register - EV Guidance Portal</title>
+  <link rel="stylesheet" href="../static/styles.css">
+  <link rel="stylesheet" href="../static/auth.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+</head>
+<body>
+
+<div class="ev-wrap">
+
+  <!-- Section 1: Navigation Bar -->
+  <nav class="ev-nav">
+    <div class="ev-logo">
+      <i class="ti ti-bolt" aria-hidden="true"></i>
+      ⚡ EV Guide
+    </div>
+    <div class="ev-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="about.html">About EVs</a>
+      <a href="models.html">EV Models</a>
+      <a href="compare.html">Compare EVs</a>
+      <a href="charging.html">Charging Guide</a>
+      <a href="maintenance.html">Maintenance</a>
+      <div class="ev-dropdown">
+        <button class="ev-dropdown-btn">Tools &amp; Guides <i class="ti ti-chevron-down"></i></button>
+        <div class="ev-dropdown-content">
+          <a href="buying-guide.html">EV Buying Guide</a>
+          <a href="calculator.html">Cost Savings Calculator</a>
+          <a href="environment.html">Environmental Impact</a>
+          <a href="stations.html">Charging Station Locator</a>
+          <a href="incentives.html">Government Incentives</a>
+          <a href="myths.html">EV Myths vs Facts</a>
+        </div>
+      </div>
+      <a href="dashboard.html" id="dashboardLink">Dashboard</a>
+    </div>
+  </nav>
+
+  <main class="auth-page-wrap">
+    <div class="auth-card">
+      <div class="auth-header">
+        <div class="auth-logo-icon">
+          <i class="ti ti-user-plus"></i>
+        </div>
+        <h2 class="auth-title">Create Account</h2>
+        <p class="auth-subtitle">Join the EV Guidance Portal to track your favorite electric vehicles</p>
+      </div>
+      
+      <div id="errorMessage" class="auth-error-banner">
+        <i class="ti ti-alert-circle"></i>
+        <span id="errorText"></span>
+      </div>
+
+      <form id="registerForm" class="auth-form">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <div class="input-wrapper">
+            <input type="text" id="username" required placeholder="Choose a username">
+            <i class="ti ti-user"></i>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <div class="input-wrapper">
+            <input type="email" id="email" required placeholder="name@example.com">
+            <i class="ti ti-mail"></i>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="input-wrapper">
+            <input type="password" id="password" required placeholder="••••••••" minlength="6">
+            <i class="ti ti-lock"></i>
+          </div>
+        </div>
+        <button type="submit" class="btn-auth-submit">Sign Up</button>
+      </form>
+
+      <p class="auth-footer">Already have an account? <a href="login.html">Sign In</a></p>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="ev-footer">
+    <div class="ev-footer-logo"><span>⚡</span> EV Guide</div>
+    <div class="ev-footer-links" style="display:flex;flex-wrap:wrap;gap:18px">
+      <div>
+        <h4 style="color:#fff;font-size:12px;margin-bottom:6px">Main Pages</h4>
+        <a href="index.html">Home</a> | 
+        <a href="about.html">About EVs</a> | 
+        <a href="models.html">Models</a> | 
+        <a href="compare.html">Compare</a> | 
+        <a href="charging.html">Charging</a> | 
+        <a href="maintenance.html">Maintenance</a> | 
+        <a href="dashboard.html">Dashboard</a>
+      </div>
+    </div>
+    <div style="color:#64748b;font-size:12px;text-align:right">
+      <strong>Contact:</strong> support@evguide.org | +91 98765 43210
+    </div>
+    <div class="ev-footer-copy">© 2024 Electric Vehicle Guidance Portal. All rights reserved.</div>
+  </footer>
+
+</div>
+
+<script>
+  // Form submission logic
+  document.getElementById("registerForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+    const errorEl = document.getElementById("errorMessage");
+    const errorText = document.getElementById("errorText");
+    errorEl.style.display = "none";
+
+    const username = document.getElementById("username").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+
+    try {
+      const response = await fetch("/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, email, password })
+      });
+
+      const resData = await response.json();
+      if (!response.ok) {
+        throw new Error(resData.detail || resData.message || "Registration failed");
+      }
+
+      alert("Account created successfully! Redirecting to login page...");
+      window.location.href = "login.html";
+    } catch (err) {
+      errorText.textContent = err.message;
+      errorEl.style.display = "flex";
+    }
+  });
+
+  // Dynamic Navigation Script (Auth check & highlight active link)
+  document.addEventListener("DOMContentLoaded", () => {
+    const token = localStorage.getItem("token");
+    const username = localStorage.getItem("username");
+    const navLinks = document.getElementById("navLinks");
+    const currentPage = window.location.pathname.split("/").pop() || "index.html";
+
+    // Highlight links
+    const links = navLinks.querySelectorAll("a");
+    links.forEach(link => {
+      if (link.getAttribute("href") === currentPage) {
+        link.classList.add("active");
+      } else {
+        link.classList.remove("active");
+      }
+    });
+
+    if (token && username) {
+      // User is logged in, redirect away from register page
+      window.location.href = "dashboard.html";
+    } else {
+      const loginLink = document.createElement("a");
+      loginLink.href = "login.html";
+      loginLink.textContent = "Login / Register";
+      loginLink.classList.add("active");
+      navLinks.appendChild(loginLink);
+    }
+  });
+</script>
+
+</body>
+</html>

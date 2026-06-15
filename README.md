@@ -18,7 +18,7 @@ A  modern  web application designed to educate and guide users on transitioning 
    - **Charging Guide**: Information on charging levels, standards, and safety tips.
    - **Maintenance Checklist**: A structured table outlining upkeep instructions.
    - **Myths vs Facts**: Interactive click-to-slide accordions answering common queries.
-   - **Government Incentives**: Subsidies listed nationally and organized state-wise.
+   - **Government Incentives**: Subsidies listed nationally national and organized state-wise.
 
 3. **User Feedback Form**:
    - Clean feedback interface including star-ratings and email validation, connected via API POST requests.
@@ -29,9 +29,9 @@ A  modern  web application designed to educate and guide users on transitioning 
 
 ```text
 evcar-updated/
-├── app/                  # FastAPI Backend Modules (Commented Guidelines)
-│   ├── database.py       # SQL Connection settings (sqlite3 configuration)
-│   ├── models.py         # DB Schemas & table scripts (CREATE TABLE definitions)
+├── app/                  # FastAPI Backend Modules
+│   ├── database.py       # SQL Connection settings (MySQL configurations)
+│   ├── models.py         # DB Schemas & table scripts (CREATE TABLE & seeds)
 │   ├── schemas.py        # API Request validation schemas (Pydantic model)
 │   └── crud.py           # SQL Query Operations templates (INSERT & SELECT)
 ├── static/               # Consolidated Static Assets
@@ -48,12 +48,19 @@ evcar-updated/
 
 ## 🚀 How to Run
 
+### Setup Environment
+Create a `.env` file in the root directory specifying your local MySQL connection parameters:
+```env
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=your_mysql_password
+DB_NAME=ev_database
+```
+
 ### Option A: Static View (Offline Preview)
 For immediate offline preview, simply double-click any HTML file in the `templates/` folder (e.g., `templates/index.html`). The pages will load with static placeholder data and the client-side JavaScript calculators will run completely offline.
 
-### Option B: Dynamic View (FastAPI + SQL Database)
-Once you implement the database backend functions described in the files under the `app/` folder, run the following:
-
+### Option B: Dynamic View (FastAPI + MySQL Database)
 1. **Install Dependencies**:
    ```bash
    pip install -r requirements.txt
@@ -65,9 +72,10 @@ Once you implement the database backend functions described in the files under t
    ```
 
 3. **Access the Portal**:
-   Open localhost in your web browser.
+   Open http://127.0.0.1:8000 in your web browser.
 
 ---
 
 ## 🔒 Frontend-Backend Dual Compatibility
 The frontend pages use advanced CSS selectors (`.dynamic-only` class) and HTML-commented Jinja blocks (`<!-- {% ... %} -->`) to run seamlessly in both static browser mode (file protocol) and server-rendered dynamic mode.
+

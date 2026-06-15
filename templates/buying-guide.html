@@ -18,7 +18,7 @@
       <i class="ti ti-bolt" aria-hidden="true"></i>
       ⚡ EV Guide
     </div>
-    <div class="ev-links">
+    <div class="ev-links" id="navLinks">
       <a href="index.html">Home</a>
       <a href="about.html">About EVs</a>
       <a href="models.html">EV Models</a>
@@ -36,7 +36,7 @@
           <a href="myths.html">EV Myths vs Facts</a>
         </div>
       </div>
-      <a href="feedback.html">Feedback</a>
+      <a href="dashboard.html" id="dashboardLink">Dashboard</a>
     </div>
   </nav>
 
@@ -120,6 +120,14 @@
               <input type="radio" name="vehicleType" value="sedan">
               <span class="choice-box">Sedan</span>
             </label>
+            <label class="choice-item">
+              <input type="radio" name="vehicleType" value="scooter">
+              <span class="choice-box">Scooter</span>
+            </label>
+            <label class="choice-item">
+              <input type="radio" name="vehicleType" value="motorcycle">
+              <span class="choice-box">Motorcycle</span>
+            </label>
           </div>
         </div>
 
@@ -147,7 +155,7 @@
         <a href="compare.html">Compare</a> | 
         <a href="charging.html">Charging</a> | 
         <a href="maintenance.html">Maintenance</a> | 
-        <a href="feedback.html">Feedback</a>
+        <a href="dashboard.html" id="dashboardLink">Dashboard</a>
       </div>
       <div>
         <h4 style="color:#fff;font-size:12px;margin-bottom:6px">Interactive Tools</h4>
@@ -167,7 +175,111 @@
 
 </div>
 
+<script id="ev-models-data" type="application/json">
+  {% if models %}
+    [
+      {% for model in models %}
+        {
+          "name": "{{ model.name|replace('\"', '\\\"') }}",
+          "brand": "{{ model.brand|replace('\"', '\\\"') }}",
+          "price": {{ model.price }},
+          "range": {{ model.range }},
+          "battery": {{ model.battery }},
+          "charging_time": "{{ model.charging_time|replace('\"', '\\\"') }}",
+          "top_speed": {{ model.top_speed }},
+          "description": "{{ model.description|replace('\"', '\\\"') }}",
+          "type": "{{ 'scooter' if 'scooter' in model.description|lower else ('motorcycle' if 'bike' in model.description|lower or 'motorcycle' in model.description|lower else ('suv' if 'suv' in model.description|lower or 'crossover' in model.description|lower else ('hatchback' if 'hatchback' in model.description|lower else 'sedan'))) }}"
+        }{% if not loop.last %},{% endif %}
+      {% endfor %}
+    ]
+  {% else %}
+    []
+  {% endif %}
+</script>
+
 <script>
+  // Dynamic list of EV Models from the database
+  let evModels = [];
+  try {
+    const dataElement = document.getElementById("ev-models-data");
+    const parsedData = JSON.parse(dataElement.textContent.trim());
+    if (parsedData && parsedData.length > 0) {
+      evModels = parsedData;
+    } else {
+      throw new Error("No data loaded from DB");
+    }
+  } catch (e) {
+    // Fallback local mock database
+    evModels = [
+      {
+        name: "Tata Nexon EV",
+        brand: "tata",
+        price: 14.49,
+        range: 489,
+        battery: 46.0,
+        charging_time: "6 hrs",
+        top_speed: 150,
+        description: "A compact and extremely popular electric SUV.",
+        type: "suv"
+      },
+      {
+        name: "Tata Punch EV",
+        brand: "tata",
+        price: 10.99,
+        range: 421,
+        battery: 35.0,
+        charging_time: "5 hrs",
+        top_speed: 140,
+        description: "A stylish, compact SUV.",
+        type: "suv"
+      },
+      {
+        name: "Tata Tiago EV",
+        brand: "tata",
+        price: 7.99,
+        range: 250,
+        battery: 19.2,
+        charging_time: "4 hrs",
+        top_speed: 120,
+        description: "An affordable and compact electric hatchback.",
+        type: "hatchback"
+      },
+      {
+        name: "Tesla Model 3",
+        brand: "tesla",
+        price: 39.90,
+        range: 513,
+        battery: 60.0,
+        charging_time: "6.5 hrs",
+        top_speed: 201,
+        description: "A high-performance luxury electric sedan.",
+        type: "sedan"
+      },
+      {
+        name: "Hyundai Ioniq 5",
+        brand: "hyundai",
+        price: 46.05,
+        range: 631,
+        battery: 72.6,
+        charging_time: "6.8 hrs",
+        top_speed: 185,
+        description: "A retro-futuristic SUV.",
+        type: "suv"
+      },
+      {
+        name: "BMW i4",
+        brand: "bmw",
+        price: 72.50,
+        range: 590,
+        battery: 80.7,
+        charging_time: "8.5 hrs",
+        top_speed: 190,
+        description: "A dynamic and high-performance all-electric gran coupe.",
+        type: "sedan"
+      }
+    ];
+  }
+
   function calculateRecommendation(event) {
     event.preventDefault();
 
@@ -177,51 +289,142 @@
     const homeCharging = form.elements["homeCharging"].value;
     const vehicleType = form.elements["vehicleType"].value;
 
-    let recCar = "";
-    let recReason = "";
+    // Filter by type
+    let candidates = evModels.filter(m => m.type === vehicleType);
 
-    // Recommendation logic tree
+    // If no candidate matches type, try matching anything in that budget
+    if (candidates.length === 0) {
+      candidates = evModels;
+    }
+
+    // Filter by budget
+    let budgetCandidates = [];
     if (budget === "below-10") {
-      if (vehicleType === "suv" || distance === "50") {
-        recCar = "Tata Punch EV (Base)";
-        recReason = "The Tata Punch EV fits your budget under ₹10 Lakhs, offering compact SUV styling and a range of up to 315 km, which easily covers your daily travel needs.";
-      } else {
-        recCar = "Tata Tiago EV";
-        recReason = "The Tata Tiago EV Hatchback is the best match. It fits your budget perfectly, is highly nimble in city traffic, and offers cheap running costs for a 20-50 km daily commute.";
-      }
+      budgetCandidates = candidates.filter(m => m.price < 10);
     } else if (budget === "10-20") {
-      if (vehicleType === "hatchback") {
-        recCar = "Tata Tiago EV (Long Range)";
-        recReason = "The Tata Tiago EV Long Range fits your budget and daily travel needs, offering a larger battery capacity and premium features for comfortable city drives.";
-      } else if (vehicleType === "sedan") {
-        recCar = "Tata Nexon EV (Creative)";
-        recReason = "As there are limited sedans in this bracket, the Nexon EV is suggested for its spacious cabin. It matches your budget, offers home charging compatibility, and handles highway commutes effortlessly.";
+      budgetCandidates = candidates.filter(m => m.price >= 10 && m.price <= 20);
+    } else {
+      budgetCandidates = candidates.filter(m => m.price > 20);
+    }
+
+    // If budget filter returned nothing, fall back to all candidates
+    if (budgetCandidates.length > 0) {
+      candidates = budgetCandidates;
+    }
+
+    // Score candidates to find the best match
+    let bestMatch = null;
+    let highestScore = -1;
+
+    candidates.forEach(m => {
+      let score = 0;
+      
+      // Budget matching score
+      if (budget === "below-10" && m.price < 10) score += 30;
+      else if (budget === "10-20" && m.price >= 10 && m.price <= 20) score += 30;
+      else if (budget === "above-20" && m.price > 20) score += 30;
+
+      // Type matching score
+      if (m.type === vehicleType) score += 40;
+
+      // Range compatibility
+      const reqRange = parseInt(distance) * 3; // require at least 3x daily distance for peace of mind
+      if (m.range >= reqRange) {
+        score += 20;
       } else {
-        recCar = "Tata Nexon EV";
-        recReason = "The Tata Nexon EV is the recommended choice. It fits your budget, easily covers your daily distance, and is ideal for home charging routines, delivering high reliability and resale values.";
+        score += (m.range / reqRange) * 10;
       }
-    } else { // above-20
-      if (vehicleType === "suv") {
-        recCar = "Hyundai Ioniq 5";
-        recReason = "The Hyundai Ioniq 5 premium SUV is recommended. It offers a huge 631 km range, handles long distances, and features ultra-fast DC charging which is ideal if you lack dedicated home charging.";
-      } else if (vehicleType === "sedan") {
-        recCar = "Tesla Model 3";
-        recReason = "The Tesla Model 3 sedan is recommended for its performance, autopilot features, excellent efficiency, and long-distance driving range exceeding 500 km.";
+
+      // Home charging vs range anxiety
+      if (homeCharging === "no") {
+        // value range higher
+        score += (m.range / 100);
+      }
+
+      if (score > highestScore) {
+        highestScore = score;
+        bestMatch = m;
+      }
+    });
+
+    if (!bestMatch && evModels.length > 0) {
+      bestMatch = evModels[0];
+    }
+
+    let recCar = "Tata Nexon EV";
+    let recReason = "No models available in the database at the moment.";
+
+    if (bestMatch) {
+      recCar = bestMatch.name;
+      recReason = `The <strong>${bestMatch.name}</strong> (${bestMatch.brand.toUpperCase()}) fits your profile best. It is a premium ${bestMatch.type} with a price of ₹${bestMatch.price} Lakhs. With a real-world range of ${bestMatch.range} km and battery capacity of ${bestMatch.battery} kWh, it easily satisfies your commute needs.`;
+      
+      if (homeCharging === "no") {
+        recReason += ` Since you do not have dedicated home charging, its large battery/range helps you make fewer visits to public fast charging stations.`;
       } else {
-        recCar = "BMW i4";
-        recReason = "The BMW i4 offers a premium gran coupe driving experience with a class-leading range of 590 km, which fits your premium budget and daily travel requirements.";
+        recReason += ` Its charging time of ${bestMatch.charging_time} is perfect for overnight charging at home.`;
       }
     }
 
     // Update Result Card
-    document.getElementById("recCarName").textContent = recCar;
-    document.getElementById("recCarReason").textContent = recReason;
+    document.getElementById("recCarName").innerHTML = recCar;
+    document.getElementById("recCarReason").innerHTML = recReason;
 
     // Show Card
     const resultCard = document.getElementById("recommendationResult");
     resultCard.style.display = "block";
     resultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
+</script>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+    const token = localStorage.getItem("token");
+    const username = localStorage.getItem("username");
+    const navLinks = document.getElementById("navLinks");
+    if (navLinks) {
+      const currentPage = window.location.pathname.split("/").pop() || "index.html";
+
+      // Highlight active link based on current page
+      const links = navLinks.querySelectorAll("a");
+      links.forEach(link => {
+        if (link.getAttribute("href") === currentPage) {
+          link.classList.add("active");
+        } else {
+          link.classList.remove("active");
+        }
+      });
+
+      if (token && username) {
+        // User is logged in
+        const dashLink = document.getElementById("dashboardLink");
+        if (dashLink) {
+          dashLink.textContent = `Dashboard (${username})`;
+        }
+        
+        const logoutLink = document.createElement("a");
+        logoutLink.href = "#";
+        logoutLink.textContent = "Logout";
+        logoutLink.style.color = "#f87171";
+        logoutLink.onclick = (e) => {
+          e.preventDefault();
+          localStorage.removeItem("token");
+          localStorage.removeItem("username");
+          window.location.href = "login.html";
+        };
+        navLinks.appendChild(logoutLink);
+      } else {
+        // User is not logged in
+        const loginLink = document.createElement("a");
+        loginLink.href = "login.html";
+        loginLink.textContent = "Login / Register";
+        if (currentPage === "login.html" || currentPage === "register.html") {
+          loginLink.classList.add("active");
+        }
+        navLinks.appendChild(loginLink);
+      }
+    }
+  });
 </script>
 
 </body>
