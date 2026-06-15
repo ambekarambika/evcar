@@ -126,7 +126,7 @@ async def submit_feedback(submission: schemas.FeedbackSubmission):
             content={"status": "error", "message": f"Failed to submit feedback: {e}"}
         )
 
-@app.post("/api/register")
+@app.post("/register")
 async def api_register(payload: schemas.UserRegister):
     try:
         conn = database.get_db_connection()
@@ -161,7 +161,7 @@ async def read_page(request: Request, page: str):
         raise HTTPException(status_code=404, detail="Page not found")
 
 
-@app.post("/api/login")
+@app.post("/login")
 async def api_login(payload: schemas.UserLogin):
     try:
         conn = database.get_db_connection()
@@ -179,7 +179,7 @@ async def api_login(payload: schemas.UserLogin):
     except Exception as e:
         return JSONResponse(status_code=500, content={"status": "error", "message": f"Login failed: {e}"})
 
-@app.post("/api/favorites/toggle")
+@app.post("/favorites/toggle")
 async def api_toggle_favorite(payload: schemas.FavoriteToggle, user_id: int = Depends(get_current_user_id)):
     try:
         conn = database.get_db_connection()
@@ -205,7 +205,7 @@ async def api_toggle_favorite(payload: schemas.FavoriteToggle, user_id: int = De
     except Exception as e:
         return JSONResponse(status_code=500, content={"status": "error", "message": f"Favorite toggle failed: {e}"})
 
-@app.get("/api/favorites")
+@app.get("/favorites")
 async def api_get_favorites(user_id: int = Depends(get_current_user_id)):
     try:
         conn = database.get_db_connection()
@@ -217,7 +217,7 @@ async def api_get_favorites(user_id: int = Depends(get_current_user_id)):
     except Exception as e:
         return JSONResponse(status_code=500, content={"status": "error", "message": f"Failed to fetch favorites: {e}"})
 
-@app.get("/api/me")
+@app.get("/me")
 async def api_get_me(user_id: int = Depends(get_current_user_id)):
     try:
         conn = database.get_db_connection()
