@@ -64,6 +64,7 @@ DB_HOST=localhost
 DB_USER=root
 DB_PASSWORD=your_mysql_password
 DB_NAME=ev_database
+DB_PORT=3306
 JWT_SECRET_KEY=your_secure_jwt_key
 ```
 
