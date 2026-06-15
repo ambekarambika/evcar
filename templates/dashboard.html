@@ -437,7 +437,7 @@
 
   async function loadProfile() {
     try {
-      const response = await fetch("/api/me", {
+      const response = await fetch("/me", {
         headers: { "Authorization": `Bearer ${token}` }
       });
       if (!response.ok) throw new Error("Session expired. Please log in again.");
@@ -463,7 +463,7 @@
   async function loadFavorites() {
     const grid = document.getElementById("favoritesGrid");
     try {
-      const response = await fetch("/api/favorites", {
+      const response = await fetch("/favorites", {
         headers: { "Authorization": `Bearer ${token}` }
       });
       if (!response.ok) throw new Error("Could not load favorites");
@@ -514,7 +514,7 @@
   async function removeFavorite(modelId) {
     if (!confirm("Are you sure you want to remove this model from your favorites?")) return;
     try {
-      const response = await fetch("/api/favorites/toggle", {
+      const response = await fetch("/favorites/toggle", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
