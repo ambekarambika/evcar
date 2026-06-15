@@ -1,6 +1,6 @@
 # Electric Vehicle Guidance Portal
 
-A premium, modern 13-page web application designed to educate and guide users on transitioning to Electric Vehicles (EVs). It features interactive client-side calculators, dynamic locator maps, model comparisons, and is fully structured to bind with a FastAPI and raw SQL database backend.
+A  modern  web application designed to educate and guide users on transitioning to Electric Vehicles (EVs). It features interactive client-side calculators, dynamic locator maps, model comparisons, and is fully structured to bind with a FastAPI and raw SQL database backend.
 
 ---
 
