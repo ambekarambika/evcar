@@ -188,7 +188,7 @@
           "charging_time": "{{ model.charging_time|replace('\"', '\\\"') }}",
           "top_speed": {{ model.top_speed }},
           "description": "{{ model.description|replace('\"', '\\\"') }}",
-          "type": "{{ 'scooter' if 'scooter' in model.description|lower else ('motorcycle' if 'bike' in model.description|lower or 'motorcycle' in model.description|lower else ('suv' if 'suv' in model.description|lower or 'crossover' in model.description|lower else ('hatchback' if 'hatchback' in model.description|lower else 'sedan'))) }}"
+          "type": "{{ 'scooter' if 'scooter' in model.description|lower else ('motorcycle' if 'bike' in model.description|lower or 'motorcycle' in model.description|lower else ('suv' if 'suv' in model.description|lower or 'crossover' in model.description|lower or 'utility' in model.description|lower else ('hatchback' if 'hatchback' in model.description|lower else 'sedan'))) }}"
         }{% if not loop.last %},{% endif %}
       {% endfor %}
     ]

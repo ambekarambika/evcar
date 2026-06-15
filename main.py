@@ -82,7 +82,44 @@ async def read_models(request: Request):
         print(f"Error loading models from DB: {e}")
         db_models = []
     
-    return templates.TemplateResponse("models.html", {"request": request, "models": db_models})
+    # Extract unique brands dynamically from DB models
+    brands = sorted(list(set(m["brand"] for m in db_models))) if db_models else []
+    
+    return templates.TemplateResponse("models.html", {"request": request, "models": db_models, "brands": brands})
+
+@app.get("/compare.html", response_class=HTMLResponse)
+async def read_compare(request: Request):
+    """
+    EV Compare dynamic page rendering endpoint.
+    """
+    try:
+        conn = database.get_db_connection()
+        try:
+            db_models = crud.fetch_ev_models(conn)
+        finally:
+            conn.close()
+    except Exception as e:
+        print(f"Error loading models from DB for compare: {e}")
+        db_models = []
+    
+    return templates.TemplateResponse("compare.html", {"request": request, "models": db_models})
+
+@app.get("/buying-guide.html", response_class=HTMLResponse)
+async def read_buying_guide(request: Request):
+    """
+    EV Buying Guide dynamic page rendering endpoint.
+    """
+    try:
+        conn = database.get_db_connection()
+        try:
+            db_models = crud.fetch_ev_models(conn)
+        finally:
+            conn.close()
+    except Exception as e:
+        print(f"Error loading models from DB for buying guide: {e}")
+        db_models = []
+    
+    return templates.TemplateResponse("buying-guide.html", {"request": request, "models": db_models})
 
 @app.get("/stations.html", response_class=HTMLResponse)
 async def read_stations(request: Request, city: str = None):

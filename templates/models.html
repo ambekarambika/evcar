@@ -141,8 +141,8 @@
 
       <!-- Section 3: Model Cards -->
       <div class="model-details" id="modelsGrid">
-        <!-- {% if models %} -->
-          <!-- {% for model in models %} -->
+        {% if models %}
+          {% for model in models %}
           <div class="model dynamic-only" {{ 'style="display: flex !important;"'|safe }} data-brand="{{ model.brand|lower }}" data-price="{{ model.price }}" data-range="{{ model.range }}">
             <img src="{{ model.image_path }}" alt="{{ model.name }}">
             <h2>{{ model.name }}</h2>
@@ -167,8 +167,8 @@
               <a href="{{ model.learn_more_link }}" target="_blank" class="btn-learn">Learn More</a>
             </div>
           </div>
-          <!-- {% endfor %} -->
-        <!-- {% else %} -->
+          {% endfor %}
+        {% else %}
         <!-- 1. Tata Nexon EV -->
         <div class="model" data-brand="tata" data-price="14.49" data-range="489">
           <img src="../static/model1.jpg" alt="Tata Nexon EV">
@@ -393,7 +393,7 @@
             <a href="https://www.bmw-bavariamotors.in/new-cars/bmw-iX" target="_blank" class="btn-learn">Learn More</a>
           </div>
         </div>
-        <!-- {% endif %} -->
+        {% endif %}
       </div>
     </div>
   </main>
