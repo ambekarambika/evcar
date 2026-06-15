@@ -17,6 +17,10 @@ DB_NAME = os.getenv("DB_NAME", "")
 
 db_port_env = os.getenv("DB_PORT", "")
 DB_PORT = int(db_port_env) if db_port_env.isdigit() else 3306
+print("DB_HOST =", DB_HOST)
+print("DB_USER =", DB_USER)
+print("DB_NAME =", DB_NAME)
+print("DB_PORT =", DB_PORT)
 
 def get_db_connection():
     """
