@@ -180,61 +180,78 @@ body{font-family:var(--font-sans);background:var(--color-background-tertiary);co
   display: none;
 }
 
-/* Responsive Nav Styles */
-.ev-menu-toggle {
-  display: none;
-  background: none;
-  border: none;
-  color: #fff;
-  font-size: 24px;
-  cursor: pointer;
-  padding: 4px 8px;
-  border-radius: 6px;
-  transition: background .2s;
-}
-.ev-menu-toggle:hover {
-  background: #1e293b;
-}
-
+/* Responsive adjustments for mobile view - Horizontal Scrolling Nav */
 @media (max-width: 768px) {
-  .ev-menu-toggle {
-    display: block;
+  .ev-nav {
+    flex-direction: row;
+    justify-content: space-between;
+    height: 56px;
+    padding: 0 16px;
+    gap: 12px;
+  }
+  .ev-logo {
+    font-size: 14px;
+    flex-shrink: 0;
   }
   .ev-links {
-    display: none;
-    position: absolute;
-    top: 56px;
-    left: 0;
-    right: 0;
-    background: #0f172a;
-    flex-direction: column;
-    padding: 16px 28px;
-    gap: 8px;
-    border-bottom: 1px solid #1e293b;
-    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.5);
-  }
-  .ev-links.mobile-show {
     display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    gap: 4px;
+    max-width: calc(100vw - 120px);
+    padding: 6px 0;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(34, 211, 238, 0.3) transparent;
   }
+  .ev-links a {
+    white-space: nowrap;
+    font-size: 12px;
+    padding: 6px 10px;
+    flex-shrink: 0;
+  }
+  
+  /* Flatten the dropdown menu on mobile so sub-links are directly scrollable */
   .ev-dropdown {
-    width: 100%;
+    display: flex;
+    align-items: center;
   }
   .ev-dropdown-btn {
-    width: 100%;
-    justify-content: space-between;
+    display: none !important;
   }
   .ev-dropdown-content {
+    display: flex !important;
     position: static;
-    width: 100%;
-    background: #1e293b;
-    box-shadow: none;
+    flex-direction: row;
+    background: transparent;
     border: none;
-    margin-top: 4px;
-    padding: 4px 12px;
-    display: none;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+    gap: 4px;
+    z-index: auto;
   }
-  .ev-dropdown:hover .ev-dropdown-content {
-    display: block;
+  .ev-dropdown-content a {
+    border-radius: 6px;
+  }
+  .ev-dropdown-content a:hover,
+  .ev-dropdown-content a.active {
+    background: #1e293b;
+    color: #fff;
+  }
+
+  /* Premium scrollbar styling for webkit browsers */
+  .ev-links::-webkit-scrollbar {
+    height: 3px;
+  }
+  .ev-links::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .ev-links::-webkit-scrollbar-thumb {
+    background: rgba(34, 211, 238, 0.3);
+    border-radius: 3px;
   }
 }
 
